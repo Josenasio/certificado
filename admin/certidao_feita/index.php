@@ -325,7 +325,7 @@ function numeroPorExtenso($numero) {
     <i class="fas fa-print"></i> Imprimir Certificado
 </button>
 
-<button id="fixed-top-button" onclick="window.location.href='/certidao/Admin/'">
+<button id="fixed-top-button" onclick="window.location.href='/certidao/admin/'">
 <i class="fas fa-times"></i> Cancelar Impressão
 </button>
 
@@ -657,7 +657,7 @@ echo "{$dia} de {$mes} de {$ano}";
       <!-- Footer fixo: QR code à esquerda e código da certidão à direita -->
   <div class="footer" style="background-color: transparent;">
     <div class="footer-left">
-      <img src="../../gerar_qr.php?codigo=http://localhost/certidao/confirmar_qr.php?codigo_certidao=<?php echo htmlspecialchars($aluno['codigo_certidao']); ?>" alt="QR Code do aluno" style="max-height: 100px;">
+      <img src="../../gerar_qr.php?codigo=https://certificados.escoladados.store/certidao/confirmar_qr.php?codigo_certidao=<?php echo htmlspecialchars($aluno['codigo_certidao']); ?>" alt="QR Code do aluno" style="max-height: 100px;">
    
       <span style="margin-left: 700px; font-size:18px; position:absolute; margin-top:2px">
    MECCES <span style="font-weight: bolder; letter-spacing:1px;">

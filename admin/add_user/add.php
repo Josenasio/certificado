@@ -81,7 +81,7 @@ if (!isset($_SESSION['id']) || $_SESSION['nivel_acesso'] !== 'Admin') {
 
 </head>
 <body style="background-color: #1B203B">
-<button class="fixed-top-button" onclick="window.location.href='/certidao/Admin/index.php'">
+<button class="fixed-top-button" onclick="window.location.href='/certidao/admin/index.php'">
     <i class="fa fa-arrow-left"></i> Voltar a Pagina Inicial
 </button>
 <br>

@@ -84,7 +84,7 @@ if (!isset($_GET['codigo_certidao'])) {
         </style>
     </head>
     <body>
-    <button class="fixed-top-button" onclick="window.location.href='/certidao/Admin/index.php'">
+    <button class="fixed-top-button" onclick="window.location.href='/certidao/admin/index.php'">
     <i class="fas fa-arrow-left"></i> Voltar à Página Inicial
 </button> 
 
@@ -145,6 +145,7 @@ if (!isset($_GET['codigo_certidao'])) {
         a.numero,
         a.data_nascimento, 
         a.bi, 
+            a.classe_id, 
         c.nome_curso AS curso,
         cl.nome_classe AS classe,
         t.nome_turma AS turma,
@@ -289,6 +290,57 @@ HTML;
     $quantidadeNotas = count($notas);
     $media = $quantidadeNotas > 0 ? round($totalNotas / $quantidadeNotas) : 0;
 
+
+
+
+
+
+    if ($aluno['classe_id'] == 8) {
+        $query_agregado = "
+            SELECT 
+                d.id AS disciplina_id,
+                d.nome_disciplina AS disciplina,
+                GROUP_CONCAT(DISTINCT CASE WHEN n.classe_id = 6 THEN n.nota END 
+                    ORDER BY n.id_nota SEPARATOR ', ') AS `10ª_classe`,
+                GROUP_CONCAT(DISTINCT CASE WHEN n.classe_id = 7 THEN n.nota END 
+                    ORDER BY n.id_nota SEPARATOR ', ') AS `11ª_classe`,
+                GROUP_CONCAT(DISTINCT CASE WHEN n.classe_id = 8 THEN n.nota END 
+                    ORDER BY n.id_nota SEPARATOR ', ') AS `12ª_classe`,
+                GROUP_CONCAT(DISTINCT e.nota_exame 
+                    ORDER BY e.id_exame SEPARATOR ', ') AS exame
+            FROM disciplina d
+            LEFT JOIN notas n ON d.id = n.id_disciplina AND n.id_aluno = ?
+            LEFT JOIN exame e ON d.id = e.disciplina_id AND e.aluno_id = ?
+            WHERE n.id_aluno = ? OR e.aluno_id = ?
+            GROUP BY d.id, d.nome_disciplina
+            ORDER BY d.numero_ordem ASC
+        ";
+        
+        $stmt_agregado = $mysqli->prepare($query_agregado);
+        $stmt_agregado->bind_param("iiii", $id, $id, $id, $id);
+        $stmt_agregado->execute();
+        $result_agregado = $stmt_agregado->get_result();
+        
+        $disciplinas_agregado = [];
+        while ($row = $result_agregado->fetch_assoc()) {
+            $disciplinas_agregado[] = $row;
+        }
+        $stmt_agregado->close();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
     // Função para converter números em extenso (até 20)
     function numeroPorExtenso($numero) {
         $numero = round($numero);
@@ -301,6 +353,7 @@ HTML;
         return isset($extenso[$numero]) ? $extenso[$numero] : "";
     }
     $mysqli->close();
+
 }
 ?>
 
@@ -368,6 +421,24 @@ HTML;
         }
  
 
+    .watermark {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(0deg);
+      width: 80%;           /* Ajuste conforme necessário */
+      height: 80%;          /* Ajuste conforme necessário */
+      background: url('admin/certidao_feita/imagem/brasao.webp') no-repeat center center;
+      background-size: contain;
+      opacity: 0.1;         /* Ajuste a opacidade se necessário */
+      z-index: 0;
+      pointer-events: none;
+      user-select: none;
+      -webkit-print-color-adjust: exact; /* Para o Chrome e Safari */
+      print-color-adjust: exact;
+    }
+
+
 
         .fixed-top-button {
             margin-top: -2px;
@@ -403,7 +474,12 @@ HTML;
     </button>
 <br>
 
+
     <div class="container">
+    <div class="watermark"></div>
+        <!-- Marca d'água -->
+  
+
         <!-- Cabeçalho principal -->
         <div class="center">
             <span style="font-family: 'Lucida Sans', sans-serif; font-size: 25px;">REPÚBLICA DEMOCRÁTICA </span>
@@ -458,51 +534,219 @@ HTML;
             <span style="font-family: 'Broadway', sans-serif; font-size: 22px; font-weight: bold; color: #333399">
                 <?php echo htmlspecialchars($aluno['classificacao']); ?>
             </span> no ano lectivo <?php echo htmlspecialchars($aluno['nome_extenso']); ?> como
-            aluno(a) <?php echo htmlspecialchars($aluno['genero']); ?> da 
-            <span style="font-family: 'Lucida Handwriting', cursive; font-size: 19px; text-decoration: underline; font-weight: bold; color:red">
-                "<?php echo htmlspecialchars($aluno['classe']); ?>"
+            aluno(a) <?php echo htmlspecialchars($aluno['genero']); ?> da <span style="font-family: 'Lucida Handwriting', cursive; font-size: 21px; font-weight: bold; color:red">"</span><span style="font-family: 'Lucida Handwriting', cursive; font-size: 21px; text-decoration: underline; font-weight: bold; color:red"><?php echo htmlspecialchars($aluno['classe']); ?></span><span style="font-family: 'Lucida Handwriting', cursive; font-size: 21px; font-weight: bold; color:red">"</span>
             </span>
-            <?php if ($aluno['curso'] != 'Geral'): ?>
-                curso de <span style="font-family: 'Garamond', serif; font-size: 19px; font-weight: bold;">
+     <?php if ($aluno['curso'] != 'Geral'): ?>
+                curso de <span style="font-family: 'Garamond', serif; font-size: 26px; font-weight: bold;">
                     <?php echo htmlspecialchars($aluno['curso']); ?>
                 </span>
             <?php endif; ?>
-            na <span style="font-family: 'Garamond', serif; font-size: 21px; font-weight: bold;">
+             na(o) <span style="font-family: 'Garamond', serif; font-size: 26px; font-weight: bold;">
                 <?php echo htmlspecialchars($aluno['escola']); ?>
             </span> com os seguintes resultados: 
-            <?php 
-            $total_notas = count($notas);
-            $count = 0;
-            foreach ($notas as $nota) {
-                if ($count > 0) {
-                    echo $count == $total_notas - 1 ? ' e ' : ', ';
-                }
-                $classe = $nota['nota'] < 10 ? 'vermelho' : '';
-                $nota_extenso = numeroPorExtenso($nota['nota']);
-                echo '<span class="' . $classe . '">' . htmlspecialchars($nota['nome_disciplina']) . ' ' . htmlspecialchars($nota['nota']) . ' (' . $nota_extenso . ')</span>';
-                $count++;
+    
+    <?php
+// Função auxiliar para processar a string de notas e destacar em vermelho as notas menores que 10
+function processNotes($noteString, &$flag) {
+    $noteString = trim($noteString);
+    // Se estiver vazia ou for o traço, retorna o próprio traço
+    if ($noteString === '' || $noteString === '-') {
+        return '-';
+    }
+    $arr = explode(',', $noteString);
+    $resultArr = [];
+    foreach ($arr as $note) {
+        $note = trim($note);
+        if (is_numeric($note)) {
+            if ($note < 10) {
+                $flag = true; // Sinaliza que pelo menos uma nota é menor que 10
+                $resultArr[] = "<span style='color:red;'>$note</span>";
+            } else {
+                $resultArr[] = $note;
             }
-            ?>
+        } else {
+            $resultArr[] = $note;
+        }
+    }
+    return implode(', ', $resultArr);
+}
+
+ 
+if ($aluno['classe_id'] == 8) {  
+    // Variáveis para acumular a soma das médias e a contagem de disciplinas
+    $somaMedias = 0;
+    $contadorMedias = 0;
+    
+    // Exibe a tabela agregada com as disciplinas, notas e média
+    echo '<table style="width: 100%; border-collapse: collapse; margin: 2px 0; font-size: 20px; line-height: 1;">';
+    echo '<tr>';
+    echo '<th style="border: .1px solid #000; padding: 2px; text-align: center; font-weight: 700;">DISCIPLINAS</th>';
+    echo '<th style="border: .1px solid #000; padding: 2px; text-align: center; font-weight: 700;">10ª</th>';
+    echo '<th style="border: .1px solid #000; padding: 2px; text-align: center; font-weight: 700;">11ª</th>';
+    echo '<th style="border: .1px solid #000; padding: 2px; text-align: center; font-weight: 700;">12ª</th>';
+    echo '<th style="border: .1px solid #000; padding: 2px; text-align: center; font-weight: 700;">EXAME</th>';
+    echo '<th style="border: .1px solid #000; padding: 2px; text-align: center; font-weight: 700;">FINAL</th>';
+    echo '</tr>';
+    
+    foreach ($disciplinas_agregado as $disciplina) {
+        // Flag para identificar se alguma nota é menor que 10
+        $hasRed = false;
+        
+        // Obtém os valores originais (se existirem) ou atribui traço
+        $nota10 = (isset($disciplina['10ª_classe']) && $disciplina['10ª_classe'] !== '') ? $disciplina['10ª_classe'] : '-';
+        $nota11 = (isset($disciplina['11ª_classe']) && $disciplina['11ª_classe'] !== '') ? $disciplina['11ª_classe'] : '-';
+        $nota12 = (isset($disciplina['12ª_classe']) && $disciplina['12ª_classe'] !== '') ? $disciplina['12ª_classe'] : '-';
+        $exame  = (isset($disciplina['exame'])       && $disciplina['exame']       !== '') ? $disciplina['exame']       : '-';
+        
+        // Processa as notas para destacar (em vermelho) as que forem menores que 10
+        $displayNota10 = processNotes($nota10, $hasRed);
+        $displayNota11 = processNotes($nota11, $hasRed);
+        $displayNota12 = processNotes($nota12, $hasRed);
+        $displayExame   = processNotes($exame, $hasRed);
+        
+        // Obtém os valores numéricos ou null se não existirem
+        $grade10 = (isset($disciplina['10ª_classe']) && $disciplina['10ª_classe'] !== '') ? floatval($disciplina['10ª_classe']) : null;
+        $grade11 = (isset($disciplina['11ª_classe']) && $disciplina['11ª_classe'] !== '') ? floatval($disciplina['11ª_classe']) : null;
+        $grade12 = (isset($disciplina['12ª_classe']) && $disciplina['12ª_classe'] !== '') ? floatval($disciplina['12ª_classe']) : null;
+        $examVal = (isset($disciplina['exame'])       && $disciplina['exame']       !== '') ? floatval($disciplina['exame'])       : null;
+        
+        // Conta quantos dos campos 10ª, 11ª e 12ª foram informados
+        $countFields = 0;
+        if ($grade10 !== null) $countFields++;
+        if ($grade11 !== null) $countFields++;
+        if ($grade12 !== null) $countFields++;
+        
+        // Calcula a média apenas se houver ao menos um dos campos 10ª, 11ª ou 12ª
+        if ($countFields > 0) {
+            if ($examVal !== null) {
+                // Se existir nota de exame, aplica a lógica:
+                // (10ª + 11ª + (12ª * 0.7) + (exame * 0.3)) dividido pela quantidade de campos informados entre 10ª, 11ª e 12ª
+                $sum = 0;
+                if ($grade10 !== null) {
+                    $sum += $grade10;
+                }
+                if ($grade11 !== null) {
+                    $sum += $grade11;
+                }
+                if ($grade12 !== null) {
+                    $sum += $grade12 * 0.7;
+                }
+                $media = ($sum + $examVal * 0.3) / $countFields;
+                $media = round($media);
+            } else {
+                // Se não existir nota de exame, a média é a soma dos campos existentes dividida pela quantidade deles
+                $sum = 0;
+                if ($grade10 !== null) {
+                    $sum += $grade10;
+                }
+                if ($grade11 !== null) {
+                    $sum += $grade11;
+                }
+                if ($grade12 !== null) {
+                    $sum += $grade12;
+                }
+                $media = $sum / $countFields;
+                $media = round($media);
+            }
+            
+            // Acumula a média desta disciplina
+            $somaMedias += $media;
+            $contadorMedias++;
+        } else {
+            $media = '-';
+        }
+        
+        // Se a média for menor que 10, exibe em vermelho
+        $mediaStyle = ($media !== '-' && $media < 10) ? "color:red;" : "";
+        
+        echo '<tr>';
+        echo '<td style="border: 1px solid #000; padding: 2px; line-height: 1;">'
+                . htmlspecialchars($disciplina['disciplina']) . '</td>';
+        echo '<td style="border: 1px solid #000; padding: 2px; text-align: center;">'
+                . $displayNota10 . '</td>';
+        echo '<td style="border: 1px solid #000; padding: 2px; text-align: center;">'
+                . $displayNota11 . '</td>';
+        echo '<td style="border: 1px solid #000; padding: 2px; text-align: center;">'
+                . $displayNota12 . '</td>';
+        echo '<td style="border: 1px solid #000; padding: 2px; text-align: center;">'
+                . $displayExame . '</td>';
+        echo '<td style="border: 1px solid #000; padding: 2px; text-align: center; ' . $mediaStyle . '">'
+                . htmlspecialchars($media) . '</td>';
+        echo '</tr>';
+    }
+    echo '</table>';
+    
+    // Calcula a média final geral (soma de todas as médias dividida pela quantidade de disciplinas)
+    if ($contadorMedias > 0) {
+        $mediaFinal = round($somaMedias / $contadorMedias);
+    } else {
+        $mediaFinal = 0;
+    }
+    // Define a variável que será usada para exibição na classificação
+    $mediaExibicao = $mediaFinal;
+    
+} else {
+    // Para outras classes, a exibição das notas permanece como estava
+    $total_notas = count($notas);
+    $count = 0;
+    foreach ($notas as $nota) {
+        if ($count > 0) {
+            echo $count == $total_notas - 1 ? ' e ' : ', ';
+        }
+        // Aplica a cor vermelha caso a nota seja menor que 10
+        $classe = $nota['nota'] < 10 ? 'vermelho' : '';
+        $nota_extenso = numeroPorExtenso($nota['nota']);
+        echo '<span class="' . $classe . '">'
+             . htmlspecialchars($nota['nome_disciplina']) . ' ' . htmlspecialchars($nota['nota'])
+             . ' (' . $nota_extenso . ')</span>';
+        $count++;
+    }
+    
+    // Calcula a média geral para as outras classes, para definir o $mediaExibicao
+    $somaNotas = 0;
+    $contadorNotas = 0;
+    foreach ($notas as $nota) {
+        if (isset($nota['nota']) && is_numeric($nota['nota'])) {
+            $somaNotas += $nota['nota'];
+            $contadorNotas++;
+        }
+    }
+    if ($contadorNotas > 0) {
+        $mediaExibicao = round($somaNotas / $contadorNotas);
+    } else {
+        $mediaExibicao = 0;
+    }
+}
+?>
+
         </div>
       
-        <!-- Bloco da classificação final -->
-        <div style="margin-top: 10px;">
-            <?php if ($aluno['classificacao'] !== 'FREQUENTOU') : ?>
-                <span style="font-family: 'Times New Roman', serif; font-size: 17px; line-height: .1; font-weight: bold; font-style: italic;">
-                    Foi-lhe atribuído(a) a classificação final de <?php echo $media . ' (' . numeroPorExtenso($media) . ')'; ?>
-                </span>
-            <?php endif; ?>
-            <br>
-            <span>___________________________________________________</span>
-            <div style="position: absolute; margin-top: 37.5px; margin-left: 352px;">
-                <div style="position: absolute; top: 0; left: 90%; width: 3cm; height: 1px; background-color: #ffffff; transform: rotate(55deg); font-weight:bold">_________</div>
+    <!-- Bloco de exibição da classificação final -->
+<div style="margin-top: 10px;">
+    <?php if ($aluno['classificacao'] !== 'FREQUENTOU') : ?>
+        <?php
+        // Define o estilo base
+        $estilo = "";
+        // Se a média for menor que 10, acrescenta a cor vermelha
+        if ($mediaExibicao < 10) {
+            $estilo .= " color: red;";
+        }
+        ?>
+        <span style="font-family: 'Times New Roman', serif; font-size: 20px; line-height: .1; font-weight: bold; font-style: italic;">
+            Foi-lhe atribuída a classificação final de <span style="<?php echo $estilo; ?>"><?php echo $mediaExibicao . ' (' . numeroPorExtenso($mediaExibicao) . ')'; ?></span>
+        </span>
+    <?php endif; ?>
+</div>
+
+<span>__________________________________________________</span><br>
+            <div style="position: absolute; margin-top: 37px; margin-left: 344px; ">
+                <div style="position: absolute; top: 0; left: 90%; width: 3cm; height: 1px; background-color: #ffffff; transform: rotate(55deg); font-weight:bold">__________</div>
             </div>
-        </div>
         <!-- Linha diagonal para assinatura -->
         
         <!-- Linha sublinhada para assinatura -->
-        <div class="signature-underline">
-          ____________________________________________
+        <div class="signature-underline"  style="position: relative; top: 4px; left: 30px;">
+          _________________________________________________
         </div>
         <br>
         <!-- Bloco com informações complementares -->

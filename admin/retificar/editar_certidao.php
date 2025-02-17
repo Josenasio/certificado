@@ -154,6 +154,111 @@ if (isset($_GET['id'])) {
     <form action="atualizar_certidao.php" method="POST" class="well form-horizontal">
         <input type="hidden" name="id" value="<?= $aluno['id'] ?>">
 
+
+        <div class="form-group">
+    <label class="col-md-4 control-label" for="ano_lectivo_id">Ano Lectivo:</label>
+    <div class="col-md-4 inputGroupContainer">
+        <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+            <select name="ano_lectivo_id" id="ano_lectivo_id" class="form-control" required>
+                <?php while ($ano_lectivo = $ano_lectivo_result->fetch_assoc()): ?>
+                    <option value="<?= $ano_lectivo['id'] ?>" <?= $aluno['ano_lectivo_id'] == $ano_lectivo['id'] ? 'selected' : '' ?>><?= $ano_lectivo['numero_ano_letivo'] ?></option>
+                <?php endwhile; ?>
+            </select>
+        </div>
+    </div>
+</div>
+
+
+<div class="form-group">
+    <label class="col-md-4 control-label" for="escola_id">Escola:</label>
+    <div class="col-md-4 inputGroupContainer">
+        <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-education"></i></span>
+            <select name="escola_id" id="escola_id" class="form-control" required>
+                <?php while ($escola = $escola_result->fetch_assoc()): ?>
+                    <option value="<?= $escola['id'] ?>" <?= $aluno['escola_id'] == $escola['id'] ? 'selected' : '' ?>><?= $escola['nome_escola'] ?></option>
+                <?php endwhile; ?>
+            </select>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="form-group">
+    <label class="col-md-4 control-label" for="classe_id">Classe:</label>
+    <div class="col-md-4 inputGroupContainer">
+        <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-list-alt"></i></span>
+            <select name="classe_id" id="classe_id" class="form-control" required>
+                <?php while ($classe = $classe_result->fetch_assoc()): ?>
+                    <option value="<?= $classe['id'] ?>" <?= $aluno['classe_id'] == $classe['id'] ? 'selected' : '' ?>><?= $classe['nome_classe'] ?></option>
+                <?php endwhile; ?>
+            </select>
+        </div>
+    </div>
+</div>
+
+
+<div class="form-group">
+    <label class="col-md-4 control-label" for="id_curso">Curso:</label>
+    <div class="col-md-4 inputGroupContainer">
+        <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-education"></i></span>
+            <select name="id_curso" id="id_curso" class="form-control" required>
+                <?php while ($curso = $curso_result->fetch_assoc()): ?>
+                    <option value="<?= $curso['id'] ?>" <?= $aluno['id_curso'] == $curso['id'] ? 'selected' : '' ?>><?= $curso['nome_curso'] ?></option>
+                <?php endwhile; ?>
+            </select>
+        </div>
+    </div>
+</div>
+
+
+<div class="form-group">
+    <label class="col-md-4 control-label" for="turma_id">Turma:</label>
+    <div class="col-md-4 inputGroupContainer">
+        <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-folder-open"></i></span>
+            <select name="turma_id" id="turma_id" class="form-control" required>
+                <?php while ($turma = $turma_result->fetch_assoc()): ?>
+                    <option value="<?= $turma['id'] ?>" <?= $aluno['turma_id'] == $turma['id'] ? 'selected' : '' ?>><?= $turma['nome_turma'] ?></option>
+                <?php endwhile; ?>
+            </select>
+        </div>
+    </div>
+</div>
+
+
+<div class="form-group">
+    <label class="col-md-4 control-label" for="numero">Número do(a) Aluno(a):</label>
+    <div class="col-md-4 inputGroupContainer">
+        <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-sort-numeric-asc"></i></span>
+            <input type="number" id="numero" name="numero" value="<?= $aluno['numero'] ?>" placeholder="Número do Aluno" class="form-control" required min="1" max="99" maxlength="2"
+                oninput="if(this.value.length > 2) this.value = this.value.slice(0, 2);"
+                oninvalid="this.setCustomValidity('Digite um número entre 1 e 99.')"
+                oninput="this.setCustomValidity('')">
+        </div>
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="col-md-4 control-label" for="classificacao_id">Classificação:</label>
+    <div class="col-md-4 inputGroupContainer">
+        <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-star"></i></span>
+            <select name="classificacao_id" id="classificacao_id" class="form-control" required>
+                <?php while ($classificacao = $classificacao_result->fetch_assoc()): ?>
+                    <option value="<?= $classificacao['id'] ?>" <?= $aluno['classificacao_id'] == $classificacao['id'] ? 'selected' : '' ?>><?= $classificacao['tipo_classificacao'] ?></option>
+                <?php endwhile; ?>
+            </select>
+        </div>
+    </div>
+</div>
+
+
         <!-- Campos de aluno -->
         <div class="form-group">
     <label class="col-md-4 control-label" for="nome">Nome:</label>
@@ -259,110 +364,10 @@ if (isset($_GET['id'])) {
     </div>
 </div>
 
-<div class="form-group">
-    <label class="col-md-4 control-label" for="escola_id">Escola:</label>
-    <div class="col-md-4 inputGroupContainer">
-        <div class="input-group">
-            <span class="input-group-addon"><i class="glyphicon glyphicon-education"></i></span>
-            <select name="escola_id" id="escola_id" class="form-control" required>
-                <?php while ($escola = $escola_result->fetch_assoc()): ?>
-                    <option value="<?= $escola['id'] ?>" <?= $aluno['escola_id'] == $escola['id'] ? 'selected' : '' ?>><?= $escola['nome_escola'] ?></option>
-                <?php endwhile; ?>
-            </select>
-        </div>
-    </div>
-</div>
-
-
-
-<div class="form-group">
-    <label class="col-md-4 control-label" for="classe_id">Classe:</label>
-    <div class="col-md-4 inputGroupContainer">
-        <div class="input-group">
-            <span class="input-group-addon"><i class="glyphicon glyphicon-list-alt"></i></span>
-            <select name="classe_id" id="classe_id" class="form-control" required>
-                <?php while ($classe = $classe_result->fetch_assoc()): ?>
-                    <option value="<?= $classe['id'] ?>" <?= $aluno['classe_id'] == $classe['id'] ? 'selected' : '' ?>><?= $classe['nome_classe'] ?></option>
-                <?php endwhile; ?>
-            </select>
-        </div>
-    </div>
-</div>
-
-
-<div class="form-group">
-    <label class="col-md-4 control-label" for="id_curso">Curso:</label>
-    <div class="col-md-4 inputGroupContainer">
-        <div class="input-group">
-            <span class="input-group-addon"><i class="glyphicon glyphicon-education"></i></span>
-            <select name="id_curso" id="id_curso" class="form-control" required>
-                <?php while ($curso = $curso_result->fetch_assoc()): ?>
-                    <option value="<?= $curso['id'] ?>" <?= $aluno['id_curso'] == $curso['id'] ? 'selected' : '' ?>><?= $curso['nome_curso'] ?></option>
-                <?php endwhile; ?>
-            </select>
-        </div>
-    </div>
-</div>
-
-
-<div class="form-group">
-    <label class="col-md-4 control-label" for="turma_id">Turma:</label>
-    <div class="col-md-4 inputGroupContainer">
-        <div class="input-group">
-            <span class="input-group-addon"><i class="glyphicon glyphicon-folder-open"></i></span>
-            <select name="turma_id" id="turma_id" class="form-control" required>
-                <?php while ($turma = $turma_result->fetch_assoc()): ?>
-                    <option value="<?= $turma['id'] ?>" <?= $aluno['turma_id'] == $turma['id'] ? 'selected' : '' ?>><?= $turma['nome_turma'] ?></option>
-                <?php endwhile; ?>
-            </select>
-        </div>
-    </div>
-</div>
-
-
-<div class="form-group">
-    <label class="col-md-4 control-label" for="numero">Número do(a) Aluno(a):</label>
-    <div class="col-md-4 inputGroupContainer">
-        <div class="input-group">
-            <span class="input-group-addon"><i class="glyphicon glyphicon-sort-numeric-asc"></i></span>
-            <input type="number" id="numero" name="numero" value="<?= $aluno['numero'] ?>" placeholder="Número do Aluno" class="form-control" required min="1" max="99" maxlength="2"
-                oninput="if(this.value.length > 2) this.value = this.value.slice(0, 2);"
-                oninvalid="this.setCustomValidity('Digite um número entre 1 e 99.')"
-                oninput="this.setCustomValidity('')">
-        </div>
-    </div>
-</div>
 
      
 
-<div class="form-group">
-    <label class="col-md-4 control-label" for="classificacao_id">Classificação:</label>
-    <div class="col-md-4 inputGroupContainer">
-        <div class="input-group">
-            <span class="input-group-addon"><i class="glyphicon glyphicon-star"></i></span>
-            <select name="classificacao_id" id="classificacao_id" class="form-control" required>
-                <?php while ($classificacao = $classificacao_result->fetch_assoc()): ?>
-                    <option value="<?= $classificacao['id'] ?>" <?= $aluno['classificacao_id'] == $classificacao['id'] ? 'selected' : '' ?>><?= $classificacao['tipo_classificacao'] ?></option>
-                <?php endwhile; ?>
-            </select>
-        </div>
-    </div>
-</div>
 
-
-<div class="form-group">
-    <label class="col-md-4 control-label" for="ano_lectivo_id">Ano Lectivo:</label>
-    <div class="col-md-4 inputGroupContainer">
-        <div class="input-group">
-            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-            <select name="ano_lectivo_id" id="ano_lectivo_id" class="form-control" required>
-                <?php while ($ano_lectivo = $ano_lectivo_result->fetch_assoc()): ?>
-                    <option value="<?= $ano_lectivo['id'] ?>" <?= $aluno['ano_lectivo_id'] == $ano_lectivo['id'] ? 'selected' : '' ?>><?= $ano_lectivo['numero_ano_letivo'] ?></option>
-                <?php endwhile; ?>
-            </select>
-        </div>
-    </div>
-</div>
 
 
         <hr>

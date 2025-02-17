@@ -368,7 +368,7 @@ $maxDate = date("Y-m-d", strtotime("-12 years"));
         </div>
 
 <!-- Button -->
-<div class="form-group">
+<div class="form-group" >
   <label class="col-md-4 control-label"></label>
   <div class="col-md-4">
     <button type="submit" class="btn btn-warning" style="letter-spacing:2px">Salvar o Certificado <i class='bx bx-save' style="font-size: 18px;"></i>
@@ -455,6 +455,9 @@ $maxDate = date("Y-m-d", strtotime("-12 years"));
                         });
                         $("#add-disciplina").prop("disabled", true);
                     } else {
+
+                      
+
                         // Para demais classes, adiciona cada disciplina com um único campo de nota.
                         options.each(function() {
                             let disciplineId = $(this).val();
@@ -474,7 +477,7 @@ $maxDate = date("Y-m-d", strtotime("-12 years"));
                                     <div class="col-md-5">
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="fas fa-pencil-alt"></i></span>
-                                            <input type="number" name="notas[]" class="form-control" required placeholder="Nota" min="0" max="20">
+                                            <input type="number" name="notas[]" class="form-control" required placeholder="Nota" min="0" max=max="20">
                                         </div>
                                     </div>
                                 </div>`;
