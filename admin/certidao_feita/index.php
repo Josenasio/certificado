@@ -219,7 +219,7 @@ function numeroPorExtenso($numero) {
 
         /* Footer fixo: QR code à esquerda e código da certidão à direita */
     .footer {
-      position: fixed;
+   
       bottom: 0;
       left: 0;
       width: 100%;
@@ -284,7 +284,7 @@ function numeroPorExtenso($numero) {
         }
         .footer {
         position: fixed;
-        bottom: 0;
+        bottom: -20px;
         left: 0;
         width: 100%;
         display: flex;
@@ -299,7 +299,7 @@ function numeroPorExtenso($numero) {
       position: fixed;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%) rotate(0deg);
+      transform: translate(-50%, -50%) rotate(-0.3deg);
       width: 80%;           /* Ajuste conforme necessário */
       height: 80%;          /* Ajuste conforme necessário */
       background: url('imagem/brasao.webp') no-repeat center center;
@@ -659,7 +659,7 @@ echo "{$dia} de {$mes} de {$ano}";
     <div class="footer-left">
       <img src="../../gerar_qr.php?codigo=https://certificados.escoladados.store/certidao/confirmar_qr.php?codigo_certidao=<?php echo htmlspecialchars($aluno['codigo_certidao']); ?>" alt="QR Code do aluno" style="max-height: 100px;">
    
-      <span style="margin-left: 700px; font-size:18px; position:absolute; margin-top:2px">
+      <span style="margin-left: 700px; font-size:18px; position:absolute; margin-bottom:0px">
    MECCES <span style="font-weight: bolder; letter-spacing:1px;">
         <?php echo htmlspecialchars($aluno['codigo_certidao']); ?>
       </span>
