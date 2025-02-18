@@ -261,7 +261,7 @@ if (!isset($_GET['codigo_certidao'])) {
     <i class="fa-solid fa-triangle-exclamation icon"></i>
 
         <h2>Certificado Inválido</h2>
-        <p>O código do Certificado não foi encontrado na base de dados da DESTP.<br>Por favor contacte a Direção </p>
+        <p>O código do Certificado não consta na base de dados da DESTP.<br>Por favor contacte a Direção </p>
 
 
 
@@ -643,7 +643,7 @@ HTML;
         (Unidade - Disciplina - Trabalho)
       </span><br>
       <span style="font-family: 'Lucida Sans', sans-serif; font-size: 16.5px; font-weight: bold;" class="ministerio">
-        MINISTÉRIO DA EDUCAÇÃO, CULTURA, CIÊNCIAS E ENSINO SUPERIOR
+        MINISTÉRIO DA EDUCAÇÃO, CULTURA, CIÊNCIA E ENSINO SUPERIOR
       </span><br>
       <span style="font-family: 'Lucida Sans', sans-serif; font-size: 16.5px; font-weight: bold;" class="ministerio">
         Direcção do Ensino Secundário e Técnico Profissional
@@ -857,8 +857,8 @@ if ($aluno['classe_id'] == 8) {
         </span>
       <?php endif; ?>
       <br>
-      <span id="linha">************************************************************************************************************************************************* <br>
-      *************************************************************************************************************************************************</span>
+      <span id="linha">**********************************************************************************************************<br>
+      **********************************************************************************************************</span>
       
     <br>
     <!-- Bloco com informações complementares -->
