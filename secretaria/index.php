@@ -78,7 +78,7 @@ $total_certidoes_distintos = $resultado_distintos_certidao['total_distintos'];
                 <li>
                     <a href="#">
                     <div class="user">
-                   
+                    <img src="../admin/imagem_user/image.png" alt="usuário">
                 </div>
                 <span class="title" style="color: #ffff;">
     <?php echo isset($_SESSION['nome']) ? $_SESSION['nome'] : 'Usuário'; ?>

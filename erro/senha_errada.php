@@ -112,14 +112,14 @@
         <a href="../index.php" class="pulsating-btn">Tente Novamente</a>
 
         <p class="mt-3"></p>
-        <img src="cadeado.webp" alt="Imagem de erro">
+        <img src="cadeado.webp" alt="Imagem de erro" style="background-color: red;">
         <br>
         <br>
     
         <p class="alert alert-warning text-center">
             Caso esqueceu a Senha ou o Email, entre imediatamente em contacto com a 
         
-            <strong><a href="tel:+2399971781" class="text-decoration-none" style="letter-spacing: 2px;">DESTP</a></strong>.
+            <strong><a href="#" class="text-decoration-none" style="letter-spacing: 1px; color:green">Arcângela Miguel</a></strong>.
         </p>
     </div>
 

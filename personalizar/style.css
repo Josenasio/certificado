@@ -188,14 +188,16 @@ body {
   padding-left: 35px;
   font-size: 18px;
   outline: none;
-  border: 1px solid var(--black2);
+  border: 2px solid rgb(88, 240, 0);
 }
 
 .search label ion-icon {
   position: absolute;
   top: 0;
+  
   left: 10px;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
+  color: green;
 }
 
 .user {
@@ -203,7 +205,7 @@ body {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: 3px dotted #007bff;
+  border: 3px solid #87fd00;
   overflow: hidden;
   cursor: pointer;
   margin-top: 10px;
@@ -342,7 +344,7 @@ body {
 
 .details table thead td {
   background-color: #222; /* Fundo escuro para destacar o cabeçalho */
-  color: #00ff55;
+  color: #ffffff;
   font-weight: 600;
   padding: 12px;
   text-align: center;

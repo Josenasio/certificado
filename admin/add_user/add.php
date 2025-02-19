@@ -35,9 +35,9 @@ if (!isset($_SESSION['id']) || $_SESSION['nivel_acesso'] !== 'Admin') {
             width: 100%;
             max-width: 100%;
             z-index: 1000;
-            background-color: black;
+            background-color: #ffffff;
             border: none;
-            color: white;
+            color: black;
             padding: 15px;
             text-align: center;
             font-size: 16px;
@@ -186,6 +186,8 @@ if (!isset($_SESSION['id']) || $_SESSION['nivel_acesso'] !== 'Admin') {
                 </div>
             </div>
         </div>
+
+        
     </div>
 </form>
 
@@ -243,5 +245,31 @@ if (!isset($_SESSION['id']) || $_SESSION['nivel_acesso'] !== 'Admin') {
         return strength[Math.min(score, 4)];
     }
 </script>
+
+  <!-- Footer -->
+  <footer class="bg-da text-light py-4" style="margin-top: 280px; background-color:#ffffff">
+    <div class="container">
+      <div class="row align-items-center">
+        <!-- Imagem à esquerda -->
+        <div class="col-md-4 text-center text-md-start mb-3 mb-md-0">
+          <img src="../../login/imagem/image.webp" alt="Logo" style="max-height: 50px;">
+        </div>
+        <!-- Texto central -->
+        <div class="col-md-4 text-center mb-3 mb-md-0">
+          <p class="mb-0" style="color: black;">&copy; 2025 Ministério da Educação, Cultura Ciência e Ensino Superior. Todos os direitos reservados.</p>
+        </div>
+        <!-- Ícones à direita -->
+        <div class="col-md-4 text-center text-md-end">
+          <a href="https://www.facebook.com/seuPerfil" target="_blank" class="text-light me-3">
+            <i class="fab fa-facebook fa-2x" style="color:#1877F2; font-size:30px"></i>
+          </a>
+          <a href="https://wa.me/9971781" target="_blank" class="text-light">
+            <i class="fab fa-whatsapp fa-2x" style="color:#25D366; font-size:30px"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
 </body>
 </html>

@@ -95,7 +95,8 @@ $total_certidoes_distintos = $resultado_distintos_certidao['total_distintos'];
                 <li>
                     <a href="#">
                     <div class="user">
-              
+                   <img src="imagem_user/image.png" alt="usuário">
+
                 </div>
                 <span class="title" style="color: #ffff;">
     <?php echo isset($_SESSION['nome']) ? $_SESSION['nome'] : 'Usuário'; ?>
@@ -311,7 +312,7 @@ $total_certidoes_distintos = $resultado_distintos_certidao['total_distintos'];
 
                                            <div class="search">
                     <label>
-                        <input type="text"  id="filterName" placeholder="Filtrar por nome do(a) aluno(a)" onkeyup="filterTable()" >
+                        <input type="text"  id="filterName" placeholder="Buscar nome do(a) aluno(a)" onkeyup="filterTable()" >
                         <ion-icon name="search-outline"></ion-icon>
                     </label>
                 </div>
@@ -321,27 +322,27 @@ $total_certidoes_distintos = $resultado_distintos_certidao['total_distintos'];
                                     <table id="arquivoTable" style="border: 1px solid #007bff">
                                         <thead>
                                             <tr style="background-color:#3a4179; border-radius:10px;">
-                                                <td><i class="fas fa-hashtag"></i> Número</td>
-                                                <td><i class="fas fa-user"></i> Nome</td>
-                                                <td><i class="fas fa-school"></i> Escola</td>
-                                                <td><i class="fas fa-users"></i> Classe</td>
-                                                <td><i class="fas fa-chalkboard-teacher"></i> Turma</td>
-                                                <td><i class="fas fa-calendar-alt"></i> Ano Letivo</td>
-                                                <td><i class="fas fa-cogs"></i> Ação</td>
+                                                <td style="text-align:left"><i class="fas fa-hashtag"></i> Número</td>
+                                                <td style="text-align:left"><i class="fas fa-user"></i> Nome</td>
+                                                <td style="text-align:left"><i class="fas fa-school"></i> Escola</td>
+                                                <td style="text-align:left"><i class="fas fa-users"></i> Classe</td>
+                                                <td style="text-align:left"><i class="fas fa-chalkboard-teacher"></i> Turma</td>
+                                                <td style="text-align:left"><i class="fas fa-calendar-alt"></i> Ano Letivo</td>
+                                                <td style="text-align:center"><i class="fas fa-cogs"></i> Ação</td>
                                             </tr>
                                         </thead>
                                         <tbody>`;
                                 data.forEach(row => {
                                     detailsContent += `<tr>
-                                        <td>${row.numero}</td>
-                                        <td>${row.nome}</td>
-                                        <td>${row.escola}</td>
-                                        <td>${row.classe}</td>
-                                        <td>${row.turma}</td>
-                                        <td>${row.ano_letivo}</td>
+                                        <td style="text-align:left">${row.numero}</td>
+                                        <td style="text-align:left">${row.nome}</td>
+                                        <td style="text-align:left">${row.escola}</td>
+                                        <td style="text-align:left">${row.classe}</td>
+                                        <td style="text-align:left">${row.turma}</td>
+                                        <td style="text-align:left">${row.ano_letivo}</td>
                                         <td>
                                             <a href="certidao_feita/index.php?id=${row.id}" class="edit-btn" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s;">
-                                                <i class="fas fa-print me-2"></i> Imprimir
+                                                <i class="fas fa-print me-2"></i> <span style="font-size:12px; color:yellow;">Imprimir</span>
                                             </a>
                                         </td>
                                     </tr>`;
@@ -360,7 +361,7 @@ $total_certidoes_distintos = $resultado_distintos_certidao['total_distintos'];
 
                                            <div class="search">
                     <label>
-                        <input type="text"  id="filterName" placeholder="Filtrar por nome do(a) aluno(a)" onkeyup="filterTable()" >
+                        <input type="text"  id="filterName" placeholder="Buscar nome do(a) aluno(a)" onkeyup="filterTable()" >
                         <ion-icon name="search-outline"></ion-icon>
                     </label>
                 </div>

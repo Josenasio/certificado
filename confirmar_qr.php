@@ -267,7 +267,7 @@ if (!isset($_GET['codigo_certidao'])) {
 
 
         
-        <a href="https://wa.me/2399971781?text=Olá%2C+gostaria+de+saber+mais">Enviar mensagem no WhatsApp</a>
+        <a href="https://wa.me/2399940636?text=Olá%2C+gostaria+de+saber+mais">Enviar mensagem no WhatsApp</a>
 
     </div>
 </body>
@@ -529,7 +529,9 @@ HTML;
       #certifico {
         font-size: 10px !important;
       }
-
+      .nomealuno {
+        font-size: 10px !important;
+      }
       #classifica {
         font-size: 11px !important;
       }
@@ -545,7 +547,9 @@ HTML;
       #escola_aluno {
         font-size: 11px !important;
       }
-
+      .notafinal {
+        font-size: 11.2px !important;
+      }
 
       #classif_final {
         font-size: 11px !important;
@@ -650,9 +654,10 @@ HTML;
       </span>
     </div>
     <!-- Bloco posicionado no canto superior direito -->
-    <div style="margin-left: 600px; font-family: 'Bookman Old Style', serif; font-size: 14px; font-style: italic; text-align:center" id="visto">
-      VISTO<br>
-      O DIRECTOR
+    <div style="margin-left: 600px; font-family: 'Bookman Old Style', serif; font-size: 14px; font-style: italic; text-align:center" id="visto">VISTO <br>
+    O<span> DIRECTOR</span>
+    <img src="assinaturas/assinaD.png" alt="Brasão de S. Tomé e Príncipe" width="60" 
+    style="position: absolute; top: 13%; left: 82%; ">
     </div>
     <br>
     <!-- Título do certificado -->
@@ -673,7 +678,7 @@ HTML;
       <span style="font-family: 'Arial', serif; font-size: 22px; font-style: italic;" id="certifico">
         CERTIFICO,
       </span> em cumprimento do despacho exarado em requerimento que fica arquivado neste
-      Guichê que, <?php echo mb_strtoupper(htmlspecialchars($aluno['nome']), 'UTF-8'); ?>,
+      Guichê que, <span class="nomealuno" style="font-family: 'Lucida Sans', sans-serif; font-size: 22px; font-weight: bold;"><?php echo mb_strtoupper(htmlspecialchars($aluno['nome']), 'UTF-8'); ?></span>,
       natural de <?php echo htmlspecialchars($aluno['naturalidade']); ?> São-Tomé,
       Distrito de <?php echo htmlspecialchars($aluno['distrito']); ?>, nascido(a) em <?php 
         setlocale(LC_TIME, 'pt_PT.UTF-8', 'Portuguese_Portugal', 'pt_BR.UTF-8', 'Portuguese_Brazil');
@@ -690,6 +695,8 @@ HTML;
       <span id="classe_aluno" style="font-family: 'Lucida Handwriting', cursive; font-size: 19px; text-decoration: underline; font-weight: bold; color:red">
         "<?php echo htmlspecialchars($aluno['classe']); ?>"
       </span>
+
+      
       <?php if ($aluno['curso'] != 'Geral'): ?>
         curso de <span id="curso_aluno" style="font-family: 'Garamond', serif; font-size: 19px; font-weight: bold;">
           <?php echo htmlspecialchars($aluno['curso']); ?>
@@ -730,7 +737,12 @@ function processNotes($noteString, &$flag) {
     return implode(', ', $resultArr);
 }
 
-if ($aluno['classe_id'] == 8) {
+ 
+if ($aluno['classe_id'] == 8) {  
+    // Variáveis para acumular a soma das médias e a contagem de disciplinas
+    $somaMedias = 0;
+    $contadorMedias = 0;
+    
     // Exibe a tabela agregada com as disciplinas, notas e média
     echo '<table style="width: 100%; border-collapse: collapse; margin: 2px 0; font-size: 20px; line-height: 1;">';
     echo '<tr>';
@@ -802,6 +814,10 @@ if ($aluno['classe_id'] == 8) {
                 $media = $sum / $countFields;
                 $media = round($media);
             }
+            
+            // Acumula a média desta disciplina
+            $somaMedias += $media;
+            $contadorMedias++;
         } else {
             $media = '-';
         }
@@ -825,6 +841,16 @@ if ($aluno['classe_id'] == 8) {
         echo '</tr>';
     }
     echo '</table>';
+    
+    // Calcula a média final geral (soma de todas as médias dividida pela quantidade de disciplinas)
+    if ($contadorMedias > 0) {
+        $mediaFinal = round($somaMedias / $contadorMedias);
+    } else {
+        $mediaFinal = 0;
+    }
+    // Define a variável que será usada para exibição na classificação
+    $mediaExibicao = $mediaFinal;
+    
 } else {
     // Para outras classes, a exibição das notas permanece como estava
     $total_notas = count($notas);
@@ -841,6 +867,21 @@ if ($aluno['classe_id'] == 8) {
              . ' (' . $nota_extenso . ')</span>';
         $count++;
     }
+    
+    // Calcula a média geral para as outras classes, para definir o $mediaExibicao
+    $somaNotas = 0;
+    $contadorNotas = 0;
+    foreach ($notas as $nota) {
+        if (isset($nota['nota']) && is_numeric($nota['nota'])) {
+            $somaNotas += $nota['nota'];
+            $contadorNotas++;
+        }
+    }
+    if ($contadorNotas > 0) {
+        $mediaExibicao = round($somaNotas / $contadorNotas);
+    } else {
+        $mediaExibicao = 0;
+    }
 }
 ?>
 
@@ -848,14 +889,22 @@ if ($aluno['classe_id'] == 8) {
 
 
     </div>
-
-    <!-- Bloco da classificação final -->
-    <div style="margin-top: 10px;">
-      <?php if ($aluno['classificacao'] !== 'FREQUENTOU') : ?>
-        <span id="classif_final" style="font-family: 'Times New Roman', serif; font-size: 17px; line-height: .1; font-weight: bold; font-style: italic;">
-          Foi-lhe atribuído(a) a classificação final de <?php echo $media . ' (' . numeroPorExtenso($media) . ')'; ?>
+    <div style="margin-top: 10px;  margin-bottom:-30px">
+    <?php if ($aluno['classificacao'] !== 'FREQUENTOU') : ?>
+        <?php
+        // Define o estilo base
+        $estilo = "";
+        // Se a média for menor que 10, acrescenta a cor vermelha
+        if ($mediaExibicao < 10) {
+            $estilo .= " color: red;";
+        }
+        ?>
+        <span class="notafinal" style="font-family: 'Times New Roman', serif; font-size: 25px; line-height: .1; font-weight: bold; font-style: italic;">
+            Foi-lhe atribuída a classificação final de <span style="<?php echo $estilo; ?>"><?php echo $mediaExibicao . ' (' . numeroPorExtenso($mediaExibicao) . ')'; ?></span>
         </span>
-      <?php endif; ?>
+    <?php endif; ?>
+</div>
+      <br>
       <br>
       <span id="linha">**********************************************************************************************************<br>
       **********************************************************************************************************</span>
@@ -884,11 +933,13 @@ if ($aluno['classe_id'] == 8) {
     <br><br>
     <div style="text-align: right; position: relative; font-family: 'Times New Roman'; font-size:16px">
       <span style="text-align: center;" id="chefesecretaria">
-        O Chefe da Secretaria,<br> 
+      <img src="assinaturas/arcang" alt="Brasão de S. Tomé e Príncipe" width="28%" 
+      style="position: absolute; top: -5%; left: 75%; ">
       </span>
     </div>
     <br>
-    <div id="artigo" style="position: relative; font-family: 'Times New Roman', serif; font-size: 17px; line-height: 1.2;">
+    <div id="artigo" style="position: relative; font-family: 'Times New Roman', serif; font-size: 17px; line-height: 1.2;">  <img src="assinaturas/image.png" alt="Brasão de S. Tomé e Príncipe" width="35%" 
+    style="position: absolute; top: 27%; left: 20%; ">
       <span>
         Art.º 8.º 10,00 <br>
         Art.º 9.º 15,00 <br>

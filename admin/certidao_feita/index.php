@@ -185,6 +185,7 @@ function numeroPorExtenso($numero) {
         }
         @page {
   margin: 1cm; /* ajuste conforme necessário */
+
 }
 
         .red {
@@ -329,7 +330,7 @@ function numeroPorExtenso($numero) {
 <i class="fas fa-times"></i> Cancelar Impressão
 </button>
 
-    <div class="container" style="margin-top: -40px;">
+<div class="container" style="margin-top: -40px;">
         <div class="center">
             <span style="font-family: 'Lucida Sans', sans-serif; font-size: 31px;">REPÚBLICA DEMOCRÁTICA </span>
             <img src="imagem/brasao.webp" alt="Brasão de S. Tomé e Príncipe" width="60">
@@ -341,15 +342,13 @@ function numeroPorExtenso($numero) {
         
 
                                                 <div style="margin-left: 830px; font-family: 'Bookman Old Style', serif; font-size: 20px; font-style: italic; text-align:center">
-                                                      VISTO<br>
-                                                    O DIRECTOR
-                                                   
+                                                    
                                                 </div>
 <br>
                                               <div class="center" style="font-family: 'Cambria', serif; font-size: 30px; font-weight: bold; text-decoration: underline;">
                                             CERTIFICADO DE HABILITAÇÃO
                                             </div>
-<BR></BR>
+<BR>
      
         <div class="justify" style="font-family: 'Times New Roman', serif; font-size: 20px; line-height: 1.2; margin-bottom:5px">
             <span style="font-family: Arial, sans-serif; font-size: 23px; font-style: italic;">Arcângela Ferreira do Nascimento Luís Miguel</span>, Chefe do departamento e de secretaria da Direcção
@@ -564,7 +563,7 @@ if ($aluno['classe_id'] == 8) {
 ?>
 
 <!-- Bloco de exibição da classificação final -->
-<div style="margin-top: 10px;">
+<div style="margin-top: 10px;  margin-bottom:-30px">
     <?php if ($aluno['classificacao'] !== 'FREQUENTOU') : ?>
         <?php
         // Define o estilo base
@@ -648,7 +647,7 @@ echo "{$dia} de {$mes} de {$ano}";
       
         <div class="justify" style="font-family: 'Times New Roman', serif; font-size: 23px; margin-top:7px">
             Obs.: O emolumento é cobrado por meio de estampilha fiscal nos termos do artigo 26.º 
-            do  <span style="margin-left: 15px;"></span> Decreto <span style="margin-left: 15px;"></span>Lei n.º58/80 de 18/12 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+            do  <span style="margin-left: 15px;"></span> Decreto <span style="margin-left: 15px;"></span>Lei n.º58/80 de 18/12 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
  
         </div>
         

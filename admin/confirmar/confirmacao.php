@@ -65,9 +65,9 @@ if (!isset($_GET['codigo_certidao'])) {
             width: 100%;
             max-width: 100%;
             z-index: 1000;
-            background-color: black;
+            background-color: #ffffff;
             border: none;
-            color: white;
+            color: black;
             padding: 15px;
             text-align: center;
             font-size: 16px;
@@ -108,7 +108,7 @@ if (!isset($_GET['codigo_certidao'])) {
        pattern="[A-Z0-9]{10}"
        title="Digite exatamente 10 caracteres alfanuméricos"
        onkeydown="if(event.key === ' ') { event.preventDefault(); }"
-       oninput="this.value = this.value.replace(/\s/g, '').toUpperCase()">
+       oninput="this.value = this.value.replace(/\s/g, '').toUpperCase()" placeholder="digite o código aqui ...">
 
                 </div>
                 <div class="d-grid">
@@ -121,8 +121,37 @@ if (!isset($_GET['codigo_certidao'])) {
             </form>
         </div>
         </div>
+
+          <!-- Footer -->
+  <footer class="bg-da text-light py-4" style="margin-top: 280px; background-color:#ffffff">
+    <div class="container">
+      <div class="row align-items-center">
+        <!-- Imagem à esquerda -->
+        <div class="col-md-4 text-center text-md-start mb-3 mb-md-0">
+          <img src="../../login/imagem/image.webp" alt="Logo" style="max-height: 50px;">
         </div>
+        <!-- Texto central -->
+        <div class="col-md-4 text-center mb-3 mb-md-0">
+          <p class="mb-0" style="color: black;">&copy; 2025 Ministério da Educação, Cultura Ciência e Ensino Superior. Todos os direitos reservados.</p>
+        </div>
+        <!-- Ícones à direita -->
+        <div class="col-md-4 text-center text-md-end">
+          <a href="https://www.facebook.com/seuPerfil" target="_blank" class="text-light me-3">
+            <i class="fab fa-facebook fa-2x" style="color:#1877F2; font-size:30px"></i>
+          </a>
+          <a href="https://wa.me/9971781" target="_blank" class="text-light">
+            <i class="fab fa-whatsapp fa-2x" style="color:#25D366; font-size:30px"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+        </div>
+
+
+        
     </body>
+    
     </html>
 
 
@@ -254,9 +283,12 @@ if (!isset($_GET['codigo_certidao'])) {
     <i class="fa-solid fa-triangle-exclamation icon"></i>
 
         <h2>Certificado Inválido</h2>
-        <p>O código do Certificado não foi encontrado na base de dados.<br>Por favor, verifique o código e tente novamente!</p>
+        <p>O código do Certificado não consta na base de dados.<br>Por favor, verifique o código e tente novamente!</p>
         <a href="{$_SERVER['PHP_SELF']}">Tentar novamente</a>
     </div>
+
+
+    
 </body>
 </html>
 HTML;
@@ -449,9 +481,9 @@ HTML;
             width: 100%;
             max-width: 100%;
             z-index: 1000;
-            background-color: black;
+            background-color: #ffffff;
             border: none;
-            color: white;
+            color: black;
             padding: 15px;
             text-align: center;
             font-size: 16px;
@@ -496,11 +528,11 @@ HTML;
             </span>
         </div>
         <!-- Bloco posicionado no canto superior direito -->
-        <div style="margin-left: 600px; font-family: 'Bookman Old Style', serif; font-size: 14px; font-style: italic; text-align:center">
-                                                      VISTO<br>
-                                                    O DIRECTOR
-                                                   
-                                                </div>
+        <div style="margin-left: 600px; font-family: 'Bookman Old Style', serif; font-size: 14px; font-style: italic; text-align:center" id="visto">VISTO <br>
+    O<span> DIRECTOR</span>
+    <img src="../../assinaturas/assinaD.png" alt="Brasão de S. Tomé e Príncipe" width="65" 
+    style="position: absolute; top: 11.5%; left: 83%; ">
+    </div>
         <br>
         <!-- Título do certificado -->
         <div class="center" style="font-family: 'Cambria', serif; font-size: 24px; font-weight: bold;">
@@ -771,13 +803,14 @@ if ($aluno['classe_id'] == 8) {
         </span>
         <br><br>
         <div style="text-align: right; position: relative; font-family: 'Times New Roman'; font-size:16px">
-            <span style="text-align: center;">
-                O Chefe da Secretaria,<br> 
-                __________________
-            </span>
-        </div>
+      <span style="text-align: center;" id="chefesecretaria">
+      <img src="../../assinaturas/arcang" alt="Brasão de S. Tomé e Príncipe" width="28%" 
+      style="position: absolute; top: -20%; left: 75%; ">
+      </span>
+    </div>
         <br>
-        <div style="position: relative; font-family: 'Times New Roman', serif; font-size: 17px; line-height: 1.2;">
+        <div style="position: relative; font-family: 'Times New Roman', serif; font-size: 17px; line-height: 1.2;">  <img src="../../assinaturas/image.png" alt="Brasão de S. Tomé e Príncipe" width="35%" 
+        style="position: absolute; top: 27%; left: 20%; ">
             <span>
                 Art.º 8.º 10,00 <br>
                 Art.º 9.º 15,00 <br>

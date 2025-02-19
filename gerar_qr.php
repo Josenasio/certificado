@@ -1,6 +1,5 @@
 <?php
 include 'phpqrcode/qrlib.php';
-
 if (isset($_GET['codigo'])) {
     $codigo = $_GET['codigo'];
     // Define o cabeçalho para imagem PNG
