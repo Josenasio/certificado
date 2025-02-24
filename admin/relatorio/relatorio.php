@@ -4,6 +4,9 @@ include_once($_SERVER['DOCUMENT_ROOT'].'/certidao/conexao/connect.php');
 // Consulta para total de Certificados
 $queryTotal = "SELECT COUNT(*) AS total FROM alunos";
 $resultTotal = $mysqli->query($queryTotal);
+if (!$resultTotal) {
+    die("Erro na consulta de total: " . $mysqli->error);
+}
 $totalCertidoes = $resultTotal->fetch_assoc()['total'];
 
 // Consulta para Certificados por Escola (mostrando o nome da escola)
@@ -13,12 +16,20 @@ $queryEscolas = "SELECT e.nome_escola AS escola, COUNT(*) AS total
                  GROUP BY a.escola_id 
                  ORDER BY total DESC";
 $resultEscolas = $mysqli->query($queryEscolas);
+if (!$resultEscolas) {
+    die("Erro na consulta de escolas: " . $mysqli->error);
+}
 $escolas = [];
 while($row = $resultEscolas->fetch_assoc()){
     $escolas[] = $row;
 }
-$escolaMais = reset($escolas);
-$escolaMenos = end($escolas);
+if(!empty($escolas)) {
+    $escolaMais = reset($escolas);
+    $escolaMenos = end($escolas);
+} else {
+    $escolaMais = ['escola' => 'Nenhuma escola', 'total' => 0];
+    $escolaMenos = ['escola' => 'Nenhuma escola', 'total' => 0];
+}
 
 // Consulta para Certificados por Distrito (mostrando o nome do distrito)
 $queryDistritos = "SELECT d.nome AS distrito, COUNT(*) AS total 
@@ -27,6 +38,9 @@ $queryDistritos = "SELECT d.nome AS distrito, COUNT(*) AS total
                    GROUP BY a.distrito_id 
                    ORDER BY total DESC";
 $resultDistritos = $mysqli->query($queryDistritos);
+if (!$resultDistritos) {
+    die("Erro na consulta de distritos: " . $mysqli->error);
+}
 $distritos = [];
 while($row = $resultDistritos->fetch_assoc()){
     $distritos[] = $row;
@@ -39,23 +53,35 @@ $queryClasses = "SELECT c.numeroclasse AS classe, COUNT(*) AS total
                  GROUP BY a.classe_id 
                  ORDER BY total DESC";
 $resultClasses = $mysqli->query($queryClasses);
+if (!$resultClasses) {
+    die("Erro na consulta de classes: " . $mysqli->error);
+}
 $classes = [];
 while($row = $resultClasses->fetch_assoc()){
     $classes[] = $row;
 }
-$classeMais = reset($classes);
-$classeMenos = end($classes);
+if(!empty($classes)) {
+    $classeMais = reset($classes);
+    $classeMenos = end($classes);
+} else {
+    $classeMais = ['classe' => 'Nenhuma classe', 'total' => 0];
+    $classeMenos = ['classe' => 'Nenhuma classe', 'total' => 0];
+}
 
 // Consulta para distribuição por Status (se status_certidao for um campo texto)
 $queryStatus = "SELECT status_certidao, COUNT(*) AS total 
                 FROM alunos 
                 GROUP BY status_certidao";
 $resultStatus = $mysqli->query($queryStatus);
+if (!$resultStatus) {
+    die("Erro na consulta de status: " . $mysqli->error);
+}
 $statusStats = [];
 while($row = $resultStatus->fetch_assoc()){
     $statusStats[] = $row;
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="pt">
 <head>

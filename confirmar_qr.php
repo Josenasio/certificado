@@ -494,17 +494,18 @@ HTML;
       }
 
       .center img{
-        width: 30px !important;
+        width: 25px !important;
       }
       .unidade {
         font-size: 11px !important;
       }
 
       .ministerio {
-        font-size: 10.5px !important;
+        font-size: 10px !important;
       }
      #certificado {
         font-size: 13px !important;
+        margin-top:-3%!important;
       }
 
 
@@ -529,6 +530,13 @@ HTML;
       #corpo {
         font-size: 9px !important;
       }
+
+
+      .center {
+        margin-top: 12% !important;
+      }
+
+
 
       #certifico {
         font-size: 10px !important;
@@ -642,14 +650,14 @@ HTML;
       <!-- Marca d'água -->
   <div class="watermark"></div>
 
+
+  <img src="admin/certidao_feita/imagem/brasao.webp" alt="Brasão de S. Tomé e Príncipe" width="60" style="margin-left:39.5%; margin-top:-3%; position:absolute">
+
     <!-- Cabeçalho principal -->
-    <div class="center">
-      <span style="font-family: 'Lucida Sans', sans-serif; font-size: 25px;" class="republica">REPÚBLICA DEMOCRÁTICA </span>
-      <img src="admin/certidao_feita/imagem/brasao.webp" alt="Brasão de S. Tomé e Príncipe" width="40">
-      <span style="font-family: 'Lucida Sans', sans-serif; font-size: 25px;" class="republica">DE SÃO TOMÉ E PRÍNCIPE</span><br> 
-      <span style="font-family: 'Bookman Old Style', serif; font-size: 14px; font-weight: bold; font-style: italic;" class="unidade">
-        (Unidade - Disciplina - Trabalho)
-      </span><br>
+    <div class="center" style="margin-top: 4%;">
+
+      <span style="font-family: 'Lucida Sans', sans-serif; font-size: 25px;" class="republica">REPÚBLICA DEMOCRÁTICA DE SÃO TOMÉ E PRÍNCIPE </span><br> 
+      
       <span style="font-family: 'Lucida Sans', sans-serif; font-size: 16.5px; font-weight: bold;" class="ministerio">
         MINISTÉRIO DA EDUCAÇÃO, CULTURA, CIÊNCIA E ENSINO SUPERIOR
       </span><br>
