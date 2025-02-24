@@ -7,13 +7,15 @@ if (!isset($_SESSION['id']) || $_SESSION['nivel_acesso'] !== 'Secretária') {
 
 include_once($_SERVER['DOCUMENT_ROOT'].'/certidao/conexao/connect.php');
 
-$count_query = mysqli_query($mysqli, "SELECT COUNT(*) as total FROM alunos WHERE status_certidao = 'secretaria'");
+$usuario_id = $_SESSION['id'];
+
+$count_query = mysqli_query($mysqli, "SELECT COUNT(*) as total FROM alunos WHERE status_certidao = 'secretaria' AND id_usuarios = $usuario_id");
 $count_result = mysqli_fetch_assoc($count_query);
 $total_pedidos = $count_result['total'];
 
 
 
-$query_distintos_certidao = mysqli_query($mysqli, "SELECT COUNT(DISTINCT codigo_certidao) as total_distintos FROM alunos WHERE status_certidao = 'arquivado'");
+$query_distintos_certidao = mysqli_query($mysqli, "SELECT COUNT(DISTINCT codigo_certidao) as total_distintos FROM alunos WHERE status_certidao = 'arquivado' AND id_usuarios = $usuario_id");
 $resultado_distintos_certidao = mysqli_fetch_assoc($query_distintos_certidao);
 $total_certidoes_distintos = $resultado_distintos_certidao['total_distintos'];
 ?>
@@ -108,6 +110,43 @@ $total_certidoes_distintos = $resultado_distintos_certidao['total_distintos'];
     </a>
 </li>
 
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+ 
+ 
 <li id="addCard">
     <a href="../sair/exit.php">
         <span class="icon">
@@ -135,12 +174,6 @@ $total_certidoes_distintos = $resultado_distintos_certidao['total_distintos'];
                     <ion-icon name="menu-outline" style="color: #ffff;"></ion-icon>
                 </div>
 
-                <div class="search">
-                    <label>
-                        <input type="text" placeholder="Search here">
-                        <ion-icon name="search-outline"></ion-icon>
-                    </label>
-                </div>
 
 
 
@@ -169,11 +202,27 @@ $total_certidoes_distintos = $resultado_distintos_certidao['total_distintos'];
 
 
 
+
+
+<div class="card" onclick="showDetails('arquivo')">
+                    <div>
+                        <div class="numbers" style="color: #ffff;"> </div>
+                        <div class="cardName">CERTIFICADOS ARQUIVADOS</div>
+                    </div>
+
+                    <div class="iconBx">
+                    <ion-icon name="folder-outline" style="color: yellow;"></ion-icon>
+                    </div>
+                </div>
+
+
+
+
            
                 <div class="card">
     <div>
         <div class="numbers" style="color: #D4AF37;"><?php echo $total_certidoes_distintos ?></div>
-        <div class="cardName">CERTIFICADOS EMITIDOS</div>
+        <div class="cardName">CERTIFICADOS CRIADOS</div>
     </div>
 
     <div class="iconBx">
@@ -248,12 +297,91 @@ $total_certidoes_distintos = $resultado_distintos_certidao['total_distintos'];
 }
 
 
+if (type === 'arquivo') {
+                                detailsContent = `<div class="recentOrders">
+                                    <div class="cardHeader">
+                                        <h2>LISTA DE CERTIFICADOS ARQUIVADOS</h2>
+
+                                           <div class="search">
+                    <label>
+                        <input type="text"  id="filterName" placeholder="Buscar nome do(a) aluno(a)" onkeyup="filterTable()" >
+                        <ion-icon name="search-outline"></ion-icon>
+                    </label>
+                </div>
+                                     
+
+                                    </div>
+                                    <table id="arquivoTable" style="border: 1px solid #007bff">
+                                        <thead>
+                                            <tr style="background-color:#3a4179; border-radius:10px;">
+                                                <td style="text-align:left"><i class="fas fa-hashtag"></i> Número</td>
+                                                <td style="text-align:left"><i class="fas fa-user"></i> Nome</td>
+                                                <td style="text-align:left"><i class="fas fa-school"></i> Escola</td>
+                                                <td style="text-align:left"><i class="fas fa-users"></i> Classe</td>
+                                                <td style="text-align:left"><i class="fas fa-chalkboard-teacher"></i> Turma</td>
+                                                <td style="text-align:left"><i class="fas fa-calendar-alt"></i> Ano Letivo</td>
+                                                <td style="text-align:center"><i class="fas fa-cogs"></i> Ação</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>`;
+                                        data.forEach(row => {
+
+
+    detailsContent += `<tr>
+        <td style="text-align:left">${row.numero}</td>
+        <td style="text-align:left">${row.nome}</td>
+        <td style="text-align:left">${row.escola}</td>
+        <td style="text-align:left">${row.classe}</td>
+        <td style="text-align:left">${row.turma}</td>
+        <td style="text-align:left">${row.ano_letivo}</td>
+        <td>
+            <a href="imprimirArquivo.php?id=${row.id}" class="edit-btn" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s;">
+                 <span style="font-size:12px; color:yellow;">Imprimir</span>
+            </a>
+        </td>
+    </tr>`;
+});
+
+                                detailsContent += `</tbody></table></div>
+                                    <div class="footer">
+                                        <p>&copy; 2024 Sistema Interno - Todos os direitos reservados</p>
+                                    </div>`;
+                            }
+
+
+
 // Atualiza o conteúdo da div com id 'details'
 document.getElementById('details').innerHTML = detailsContent;
 }
     };
     xhr.send();
 }
+
+
+
+
+ // Função para filtrar as linhas da tabela de arquivos pelo nome
+ function filterTable() {
+                    var input, filter, table, tr, td, i, txtValue;
+                    input = document.getElementById("filterName");
+                    if (!input) return;
+                    filter = input.value.toUpperCase();
+                    table = document.getElementById("arquivoTable");
+                    if (!table) return;
+                    tr = table.getElementsByTagName("tr");
+                    // Começa em i = 1 para pular o cabeçalho da tabela
+                    for (i = 1; i < tr.length; i++) {
+                        td = tr[i].getElementsByTagName("td")[1]; // coluna "Nome" (segunda coluna)
+                        if (td) {
+                            txtValue = td.textContent || td.innerText;
+                            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                                tr[i].style.display = "";
+                            } else {
+                                tr[i].style.display = "none";
+                            }
+                        }
+                    }
+                }
     </script>
  <!-- =========== Scripts ========= -->
  <script src="../personalizar/main.js"></script>

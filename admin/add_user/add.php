@@ -103,7 +103,7 @@ if (!isset($_SESSION['id']) || $_SESSION['nivel_acesso'] !== 'Admin') {
             <div class="col-md-8 col-lg-6">
                 <div class="card shadow-lg border-0">
                     <div class="card-header bg-primary text-white">
-                        <h2 class="mb-0 fw-bold"><i class="fas fa-user-plus me-2"></i>Cadastro de Usuário</h2>
+                        <h2 class="mb-0 fw-bold"><i class="fas fa-user-plus me-2"></i>Cadastro de Utilizador</h2>
                     </div>
                     
                     <div class="card-body p-4">
@@ -260,10 +260,10 @@ if (!isset($_SESSION['id']) || $_SESSION['nivel_acesso'] !== 'Admin') {
         </div>
         <!-- Ícones à direita -->
         <div class="col-md-4 text-center text-md-end">
-          <a href="https://www.facebook.com/seuPerfil" target="_blank" class="text-light me-3">
+          <a href="https://www.facebook.com/educacao.stp/" target="_blank" class="text-light me-3">
             <i class="fab fa-facebook fa-2x" style="color:#1877F2; font-size:30px"></i>
           </a>
-          <a href="https://wa.me/9971781" target="_blank" class="text-light">
+          <a href="https://wa.me/2392399971781" target="_blank" class="text-light">
             <i class="fab fa-whatsapp fa-2x" style="color:#25D366; font-size:30px"></i>
           </a>
         </div>

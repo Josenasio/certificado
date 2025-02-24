@@ -11,18 +11,18 @@ if (!isset($_SESSION['id']) || $_SESSION['nivel_acesso'] !== 'Admin') {
 if (isset($_POST['id'])) {
     $id = intval($_POST['id']); // Segurança contra SQL Injection
 
-    // Atualiza o status da certidão para 'arquivado'
-    $query = "UPDATE alunos SET status_certidao = 'arquivado' WHERE id = ?";
-    
+    // Atualiza o status da certidão para 'arquivado' e define data_imprimir com a data atual
+    $query = "UPDATE alunos SET status_certidao = 'arquivado', data_imprimir = NOW() WHERE id = ?";
+
     $stmt = $mysqli->prepare($query);
     $stmt->bind_param("i", $id);
-    
+
     if ($stmt->execute()) {
         echo "Status atualizado com sucesso!";
     } else {
         echo "Erro ao atualizar o status.";
     }
-    
+
     $stmt->close();
 } else {
     echo "ID do aluno não fornecido.";

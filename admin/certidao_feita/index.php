@@ -22,7 +22,7 @@ if (isset($_GET['id'])) {
         a.nome_pai, 
         a.codigo_certidao, 
         a.status_certidao, 
-        a.data_registro, 
+        a.data_imprimir, 
         a.numero,
         a.data_nascimento, 
         a.bi, 
@@ -35,7 +35,8 @@ if (isset($_GET['id'])) {
         class.tipo_classificacao AS classificacao,
         al.numero_ano_letivo, 
         al.nome_extenso, 
-        d.nome AS distrito
+        d.nome AS distrito,
+        class.id
     FROM alunos a
     LEFT JOIN cursos c ON a.id_curso = c.id
     LEFT JOIN classe cl ON a.classe_id = cl.id
@@ -148,8 +149,32 @@ function numeroPorExtenso($numero) {
         0 => "ZERO VALOR", 1 => "UM VALOR", 2 => "DOIS VALORES", 3 => "TRÊS VALORES", 4 => "QUATRO VALORES", 5 => "CINCO VALORES",
         6 => "SEIS VALORES", 7 => "SETE VALORES", 8 => "OITO VALORES", 9 => "NOVE VALORES", 10 => "DEZ VALORES", 11 => "ONZE VALORES",
         12 => "DOZE VALORES", 13 => "TREZE VALORES", 14 => "CATORZE VALORES", 15 => "QUINZE VALORES", 16 => "DEZASSEIS VALORES",
-        17 => "DEZASSETE VALORES", 18 => "DEZOITO VALORES", 19 => "DEZENOVE VALORES", 20 => "VINTE VALORES"
+        17 => "DEZASSETE VALORES", 18 => "DEZOITO VALORES", 19 => "DEZENOVE VALORES", 20 => "VINTE VALORES", 21 => "VINTE E UM VALORES",
+        22 => "VINTE E DOIS VALORES", 23 => "VINTE E TRÊS VALORES", 24 => "VINTE E QUATRO VALORES", 25 => "VINTE E CINCO VALORES",
+        26 => "VINTE E SEIS VALORES", 27 => "VINTE E SETE VALORES", 28 => "VINTE E OITO VALORES", 29 => "VINTE E NOVE VALORES",
+        30 => "TRINTA VALORES", 31 => "TRINTA E UM VALORES", 32 => "TRINTA E DOIS VALORES", 33 => "TRINTA E TRÊS VALORES",
+        34 => "TRINTA E QUATRO VALORES", 35 => "TRINTA E CINCO VALORES", 36 => "TRINTA E SEIS VALORES", 37 => "TRINTA E SETE VALORES",
+        38 => "TRINTA E OITO VALORES", 39 => "TRINTA E NOVE VALORES", 40 => "QUARENTA VALORES", 41 => "QUARENTA E UM VALORES",
+        42 => "QUARENTA E DOIS VALORES", 43 => "QUARENTA E TRÊS VALORES", 44 => "QUARENTA E QUATRO VALORES", 45 => "QUARENTA E CINCO VALORES",
+        46 => "QUARENTA E SEIS VALORES", 47 => "QUARENTA E SETE VALORES", 48 => "QUARENTA E OITO VALORES", 49 => "QUARENTA E NOVE VALORES",
+        50 => "CINQUENTA VALORES", 51 => "CINQUENTA E UM VALORES", 52 => "CINQUENTA E DOIS VALORES", 53 => "CINQUENTA E TRÊS VALORES",
+        54 => "CINQUENTA E QUATRO VALORES", 55 => "CINQUENTA E CINCO VALORES", 56 => "CINQUENTA E SEIS VALORES",
+        57 => "CINQUENTA E SETE VALORES", 58 => "CINQUENTA E OITO VALORES", 59 => "CINQUENTA E NOVE VALORES",
+        60 => "SESSENTA VALORES", 61 => "SESSENTA E UM VALORES", 62 => "SESSENTA E DOIS VALORES", 63 => "SESSENTA E TRÊS VALORES",
+        64 => "SESSENTA E QUATRO VALORES", 65 => "SESSENTA E CINCO VALORES", 66 => "SESSENTA E SEIS VALORES",
+        67 => "SESSENTA E SETE VALORES", 68 => "SESSENTA E OITO VALORES", 69 => "SESSENTA E NOVE VALORES",
+        70 => "SETENTA VALORES", 71 => "SETENTA E UM VALORES", 72 => "SETENTA E DOIS VALORES", 73 => "SETENTA E TRÊS VALORES",
+        74 => "SETENTA E QUATRO VALORES", 75 => "SETENTA E CINCO VALORES", 76 => "SETENTA E SEIS VALORES",
+        77 => "SETENTA E SETE VALORES", 78 => "SETENTA E OITO VALORES", 79 => "SETENTA E NOVE VALORES",
+        80 => "OITENTA VALORES", 81 => "OITENTA E UM VALORES", 82 => "OITENTA E DOIS VALORES", 83 => "OITENTA E TRÊS VALORES",
+        84 => "OITENTA E QUATRO VALORES", 85 => "OITENTA E CINCO VALORES", 86 => "OITENTA E SEIS VALORES",
+        87 => "OITENTA E SETE VALORES", 88 => "OITENTA E OITO VALORES", 89 => "OITENTA E NOVE VALORES",
+        90 => "NOVENTA VALORES", 91 => "NOVENTA E UM VALORES", 92 => "NOVENTA E DOIS VALORES", 93 => "NOVENTA E TRÊS VALORES",
+        94 => "NOVENTA E QUATRO VALORES", 95 => "NOVENTA E CINCO VALORES", 96 => "NOVENTA E SEIS VALORES",
+        97 => "NOVENTA E SETE VALORES", 98 => "NOVENTA E OITO VALORES", 99 => "NOVENTA E NOVE VALORES",
+        100 => "CEM VALORES"
     ];
+    
     
     return isset($extenso[$numero]) ? $extenso[$numero] : "";
 }
@@ -184,7 +209,10 @@ function numeroPorExtenso($numero) {
            
         }
         @page {
-  margin: 1cm; /* ajuste conforme necessário */
+  margin-left: 1cm; /* ajuste conforme necessário */
+  margin-right: 1cm;
+  margin-bottom: 1cm;
+  margin-top: 0.3cm;
 
 }
 
@@ -220,14 +248,14 @@ function numeroPorExtenso($numero) {
 
         /* Footer fixo: QR code à esquerda e código da certidão à direita */
     .footer {
-   
+        position: static;
       bottom: 0;
       left: 0;
       width: 100%;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 10px;
+      padding: 0px;
       background-color: transparent;
       z-index: 1000;
       
@@ -267,6 +295,9 @@ function numeroPorExtenso($numero) {
                 padding: 0;
                 margin: 0;
             }
+         
+
+
             
             .container {
                 border: none;
@@ -285,7 +316,7 @@ function numeroPorExtenso($numero) {
         }
         .footer {
         position: fixed;
-        bottom: -20px;
+        bottom: 10px;
         left: 0;
         width: 100%;
         display: flex;
@@ -330,19 +361,23 @@ function numeroPorExtenso($numero) {
 <i class="fas fa-times"></i> Cancelar Impressão
 </button>
 
-<div class="container" style="margin-top: -40px;">
-        <div class="center">
-            <span style="font-family: 'Lucida Sans', sans-serif; font-size: 31px;">REPÚBLICA DEMOCRÁTICA </span>
-            <img src="imagem/brasao.webp" alt="Brasão de S. Tomé e Príncipe" width="60">
-            <span style="font-family: 'Lucida Sans', sans-serif; font-size: 31px;">DE SÃO TOMÉ E PRÍNCIPE</span><br> 
-            <span style="font-family: 'Bookman Old Style', serif; font-size: 20px; font-weight: bold; font-style: italic;">(Unidade - Disciplina - Trabalho)</span><br>
+<div class="container" style="margin-top: -40px; ">
+
+<img src="imagem/brasao.webp" alt="Brasão de S. Tomé e Príncipe" width="150" style="margin-left: 440px; position:absolute">
+        <div class="center" style="margin-top: 135px;">
+     
+
+            <span style="font-family: 'Lucida Sans', sans-serif; font-size: 31px;">REPÚBLICA DEMOCRÁTICA DE SÃO TOMÉ E PRÍNCIPE</span>
+       <br> 
             <span style="font-family: 'Lucida Sans', sans-serif; font-size: 22.5px; font-weight: bold;">MINISTÉRIO DA EDUCAÇÃO, CULTURA, CIÊNCIA E ENSINO SUPERIOR</span><br>
            <span style="font-family: 'Lucida Sans', sans-serif; font-size: 22.5px; font-weight: bold;"> Direcção do Ensino Secundário e Técnico Profissional</span>
         </div>
         
 
-                                                <div style="margin-left: 830px; font-family: 'Bookman Old Style', serif; font-size: 20px; font-style: italic; text-align:center">
-                                                    
+                                             <div style="margin-left: 830px; font-family: 'Bookman Old Style', serif; font-size: 20px; font-style: italic; text-align:center">
+                                                      VISTO<br>
+                                                    O DIRECTOR
+                                                   
                                                 </div>
 <br>
                                               <div class="center" style="font-family: 'Cambria', serif; font-size: 30px; font-weight: bold; text-decoration: underline;">
@@ -358,7 +393,7 @@ function numeroPorExtenso($numero) {
       
 
         <div class="justify" style="font-family: 'Times New Roman', serif; font-size: 23px; line-height: 1.6;">
-    <span style="font-family: 'Arial', serif; font-size: 28px; font-style: italic;">CERTIFICO</span>, em cumprimento do despacho exarado em requerimento que fica arquivado neste
+    <span style="font-family: 'Arial', serif; font-size: 28px; font-style: italic;">CERTIFICA</span>, em cumprimento do despacho exarado em requerimento que fica arquivado neste
     Guichê que, <span style="font-family: 'Lucida Sans', sans-serif; font-size: 27px; font-weight: bold;"><?php echo mb_strtoupper(htmlspecialchars($aluno['nome']), 'UTF-8'); ?>
     </span>, natural de <?php echo htmlspecialchars($aluno['naturalidade']); ?> São-Tomé,
     Distrito de <?php echo htmlspecialchars($aluno['distrito']); ?>, nascido(a) em <?php 
@@ -378,17 +413,62 @@ function numeroPorExtenso($numero) {
 
 
 
+    <?php
+// Cálculo da média deve ocorrer antes da utilização:
+$somaNotas = 0;
+$contadorNotas = 0;
+foreach ($notas as $nota) {
+    if (isset($nota['nota']) && is_numeric($nota['nota'])) {
+        $somaNotas += $nota['nota'];
+        $contadorNotas++;
+    }
+}
+if ($contadorNotas > 0) {
+    $mediaExibicao = round($somaNotas / $contadorNotas);
+} else {
+    $mediaExibicao = 0;
+}
+?>
+
+
+
 
     <?php if ($aluno['curso'] != 'Geral'): ?>
-                curso de <span style="font-family: 'Garamond', serif; font-size: 26px; font-weight: bold;">
-                    <?php echo htmlspecialchars($aluno['curso']); ?>
-                </span>
+                curso de 
+                        <span style="font-family: 'Garamond', serif; font-size: 26px; font-weight: bold;">
+                            <?php echo htmlspecialchars($aluno['curso']); ?>
+                        </span>
             <?php endif; ?>
-             na(o) <span style="font-family: 'Garamond', serif; font-size: 26px; font-weight: bold;">
-                <?php echo htmlspecialchars($aluno['escola']); ?>
-            </span> com os seguintes resultados: 
+             na(o) 
+                        <span style="font-family: 'Garamond', serif; font-size: 26px; font-weight: bold;">
+                <?php echo htmlspecialchars($aluno['escola']); ?> 
+                        </span>  
+
+
+                        <?php if (in_array($aluno['classe_id'], [3, 4, 6, 7])): ?>
+    <span style="font-family: 'Garamond', serif; font-size: 24px; font-weight: bold;">
+        e ficou 
+        <span style="font-weight: bold; <?php echo ($mediaExibicao < 10) ? 'color: red;' : ''; ?>">
+            <?php echo ($mediaExibicao < 10) ? "Reprovado(a)" : "Aprovado(a)"; ?>
+        </span>
+    </span>
+<?php endif; ?>
+
+
+
+            com os seguintes resultados:  
     
     <?php
+
+ 
+
+
+
+
+
+
+
+
 // Função auxiliar para processar a string de notas e destacar em vermelho as notas menores que 10
 function processNotes($noteString, &$flag) {
     $noteString = trim($noteString);
@@ -545,20 +625,7 @@ if ($aluno['classe_id'] == 8) {
         $count++;
     }
     
-    // Calcula a média geral para as outras classes, para definir o $mediaExibicao
-    $somaNotas = 0;
-    $contadorNotas = 0;
-    foreach ($notas as $nota) {
-        if (isset($nota['nota']) && is_numeric($nota['nota'])) {
-            $somaNotas += $nota['nota'];
-            $contadorNotas++;
-        }
-    }
-    if ($contadorNotas > 0) {
-        $mediaExibicao = round($somaNotas / $contadorNotas);
-    } else {
-        $mediaExibicao = 0;
-    }
+    
 }
 ?>
 
@@ -581,7 +648,7 @@ if ($aluno['classe_id'] == 8) {
 
             <span>___________________________________________</span><br>
             <div style="position: absolute; margin-top: 22px; margin-left: 495px;">
-                <div style="position: absolute; top: 0; left: 90%; width: 3cm; height: 1px; background-color: black; transform: rotate(55deg); font-weight:bold">_________</div>
+                <div style="position: absolute; top: 0; left: 90%; width: 3cm; height: 1px; transform: rotate(55deg); font-weight:bold">_________</div>
             </div>
            
         </div>
@@ -593,33 +660,49 @@ if ($aluno['classe_id'] == 8) {
 <br>
 <br>
     <br><br> <br>
-        <div class="justify" style="font-family: 'Times New Roman', serif; font-size: 23px; line-height: 1.3;">
+       <div>
+
+<div style="margin-bottom:-10px" class="primeira">
+    
+
+<div class="justify" style="font-family: 'Times New Roman', serif; font-size: 23px; line-height: 1.3;">
             Consta do livro de termos da turma <?php echo htmlspecialchars($aluno['turma']); ?>, sob o n.º <?php echo htmlspecialchars($aluno['numero']); ?> do ano lectivo <?php echo htmlspecialchars($aluno['numero_ano_letivo']); ?>,
             e leva o selo branco em uso nesta Direcção
         </div>
       
         
-        <span style="font-family: 'Times New Roman', serif; font-size: 23px; ">Guichê do aluno em São Tomé, <?php
-// Lista dos meses em português
-$meses = [
-    1 => 'janeiro', 2 => 'fevereiro', 3 => 'março', 4 => 'abril',
-    5 => 'maio', 6 => 'junho', 7 => 'julho', 8 => 'agosto',
-    9 => 'setembro', 10 => 'outubro', 11 => 'novembro', 12 => 'dezembro'
-];
+        <span style="font-family: 'Times New Roman', serif; font-size: 23px;"> 
+    Guichê do aluno em São Tomé, 
+    <?php 
+    // Verifica se a data existe e não está vazia
+    $data_imprimir = !empty($aluno['data_imprimir']) ? $aluno['data_imprimir'] : 'now';
+    $data = new DateTime($data_imprimir);
 
-// Criar o objeto DateTime com a data atual
-$date = new DateTime(); // Pega a data e hora atual
+    $meses = [
+        1 => "janeiro",
+        2 => "fevereiro",
+        3 => "março",
+        4 => "abril",
+        5 => "maio",
+        6 => "junho",
+        7 => "julho",
+        8 => "agosto",
+        9 => "setembro",
+        10 => "outubro",
+        11 => "novembro",
+        12 => "dezembro"
+    ];
 
-// Formatar a data manualmente
-$dia = $date->format('d');
-$mes = $meses[(int)$date->format('m')]; // Mês em português
-$ano = $date->format('Y');
+    $dia = $data->format("d");
+    $mes = $data->format("n");
+    $ano = $data->format("Y");
+    $hora = $data->format("H:i:s");
 
-// Exibir a data
-echo "{$dia} de {$mes} de {$ano}";
-?>.
+    echo "{$dia} de {$meses[$mes]} de {$ano}";
+?>
 
 </span>
+
 
         <br>
         <div style="text-align: right; position: relative;  margin-top: 15px; font-family: 'Times New Roman'; font-size:22px">
@@ -650,14 +733,16 @@ echo "{$dia} de {$mes} de {$ano}";
             do  <span style="margin-left: 15px;"></span> Decreto <span style="margin-left: 15px;"></span>Lei n.º58/80 de 18/12 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
  
         </div>
-        
-        </div>
 
-      <!-- Footer fixo: QR code à esquerda e código da certidão à direita -->
-  <div class="footer" style="background-color: transparent;">
+</div>
+
+
+
+              <!-- Footer fixo: QR code à esquerda e código da certidão à direita -->
+              <div class="footer" style="background-color: transparent;">
     <div class="footer-left">
-      <img src="../../gerar_qr.php?codigo=https://certificados.escoladados.store/certidao/confirmar_qr.php?codigo_certidao=<?php echo htmlspecialchars($aluno['codigo_certidao']); ?>" alt="QR Code do aluno" style="max-height: 100px;">
-   
+    <img src="../../gerar_qr.php?codigo=https://certificados.escoladados.store/certidao/admin/certidao_feita/track_qr.php?codigo_certidao=<?php echo htmlspecialchars($aluno['codigo_certidao']); ?>" alt="QR Code do aluno" style="max-height: 100px;">
+
       <span style="margin-left: 700px; font-size:18px; position:absolute; margin-bottom:0px">
    MECCES <span style="font-weight: bolder; letter-spacing:1px;">
         <?php echo htmlspecialchars($aluno['codigo_certidao']); ?>
@@ -667,6 +752,13 @@ echo "{$dia} de {$mes} de {$ano}";
     </div>
  
   </div>
+       </div>
+        
+
+
+        </div>
+
+
 
     <script>
 function updateStatusAndPrint() {

@@ -136,10 +136,10 @@ if (!isset($_GET['codigo_certidao'])) {
         </div>
         <!-- Ícones à direita -->
         <div class="col-md-4 text-center text-md-end">
-          <a href="https://www.facebook.com/seuPerfil" target="_blank" class="text-light me-3">
+          <a href="https://www.facebook.com/educacao.stp/" target="_blank" class="text-light me-3">
             <i class="fab fa-facebook fa-2x" style="color:#1877F2; font-size:30px"></i>
           </a>
-          <a href="https://wa.me/9971781" target="_blank" class="text-light">
+          <a href="https://wa.me/2399971781" target="_blank" class="text-light">
             <i class="fab fa-whatsapp fa-2x" style="color:#25D366; font-size:30px"></i>
           </a>
         </div>
@@ -170,7 +170,7 @@ if (!isset($_GET['codigo_certidao'])) {
         a.nome_pai, 
         a.codigo_certidao, 
         a.status_certidao, 
-        a.data_registro, 
+        a.data_imprimir, 
         a.numero,
         a.data_nascimento, 
         a.bi, 
@@ -512,26 +512,21 @@ HTML;
         <!-- Marca d'água -->
   
 
-        <!-- Cabeçalho principal -->
-        <div class="center">
-            <span style="font-family: 'Lucida Sans', sans-serif; font-size: 25px;">REPÚBLICA DEMOCRÁTICA </span>
-            <img src="../certidao_feita/imagem/brasao.webp" alt="Brasão de S. Tomé e Príncipe" width="40">
-            <span style="font-family: 'Lucida Sans', sans-serif; font-size: 25px;">DE SÃO TOMÉ E PRÍNCIPE</span><br> 
-            <span style="font-family: 'Bookman Old Style', serif; font-size: 14px; font-weight: bold; font-style: italic;">
-                (Unidade - Disciplina - Trabalho)
-            </span><br>
-            <span style="font-family: 'Lucida Sans', sans-serif; font-size: 16.5px; font-weight: bold;">
-                MINISTÉRIO DA EDUCAÇÃO, CULTURA, CIÊNCIAS E ENSINO SUPERIOR
-            </span><br>
-            <span style="font-family: 'Lucida Sans', sans-serif; font-size: 16.5px; font-weight: bold;">
-                Direcção do Ensino Secundário e Técnico Profissional
-            </span>
+        <img src="../certidao_feita/imagem/brasao.webp" alt="Brasão de S. Tomé e Príncipe" width="100" style="margin-left: 335px; position:absolute">
+        <div class="center" style="margin-top: 95px;">
+     
+
+            <span style="font-family: 'Lucida Sans', sans-serif; font-size: 20px;">REPÚBLICA DEMOCRÁTICA DE SÃO TOMÉ E PRÍNCIPE</span>
+       <br> 
+            <span style="font-family: 'Lucida Sans', sans-serif; font-size: 16.5px; font-weight: bold;">MINISTÉRIO DA EDUCAÇÃO, CULTURA, CIÊNCIA E ENSINO SUPERIOR</span><br>
+           <span style="font-family: 'Lucida Sans', sans-serif; font-size: 16.5px; font-weight: bold;"> Direcção do Ensino Secundário e Técnico Profissional</span>
         </div>
+
         <!-- Bloco posicionado no canto superior direito -->
         <div style="margin-left: 600px; font-family: 'Bookman Old Style', serif; font-size: 14px; font-style: italic; text-align:center" id="visto">VISTO <br>
     O<span> DIRECTOR</span>
     <img src="../../assinaturas/assinaD.png" alt="Brasão de S. Tomé e Príncipe" width="65" 
-    style="position: absolute; top: 11.5%; left: 83%; ">
+    style="position: absolute; top: 13.5%; left: 83%; ">
     </div>
         <br>
         <!-- Título do certificado -->
@@ -787,20 +782,32 @@ if ($aluno['classe_id'] == 8) {
             e leva o selo branco em uso nesta Direcção
         </div>
         <br>
-        <span style="font-family: 'Times New Roman', serif; font-size: 17px;">
-            Guichê do aluno em São Tomé, <?php
-                $meses = [
-                    1 => 'janeiro', 2 => 'fevereiro', 3 => 'março', 4 => 'abril',
-                    5 => 'maio', 6 => 'junho', 7 => 'julho', 8 => 'agosto',
-                    9 => 'setembro', 10 => 'outubro', 11 => 'novembro', 12 => 'dezembro'
-                ];
-                $date = new DateTime();
-                $dia = $date->format('d');
-                $mes = $meses[(int)$date->format('m')];
-                $ano = $date->format('Y');
-                echo "{$dia} de {$mes} de {$ano}";
-            ?>.
-        </span>
+        <span style="font-family: 'Times New Roman', serif; font-size: 17px;"> 
+    Guichê do aluno em São Tomé, 
+    <?php 
+        $data = new DateTime($aluno['data_imprimir']);
+        $meses = [
+            1 => "janeiro",
+            2 => "fevereiro",
+            3 => "março",
+            4 => "abril",
+            5 => "maio",
+            6 => "junho",
+            7 => "julho",
+            8 => "agosto",
+            9 => "setembro",
+            10 => "outubro",
+            11 => "novembro",
+            12 => "dezembro"
+        ];
+        $dia = $data->format("d");
+        $mes = $data->format("n");
+        $ano = $data->format("Y");
+        $hora = $data->format("H:i:s");
+        echo "{$dia} de {$meses[$mes]} de {$ano}";
+    ?>.
+</span>
+
         <br><br>
         <div style="text-align: right; position: relative; font-family: 'Times New Roman'; font-size:16px">
       <span style="text-align: center;" id="chefesecretaria">
@@ -809,7 +816,25 @@ if ($aluno['classe_id'] == 8) {
       </span>
     </div>
         <br>
-        <div style="position: relative; font-family: 'Times New Roman', serif; font-size: 17px; line-height: 1.2;">  <img src="../../assinaturas/image.png" alt="Brasão de S. Tomé e Príncipe" width="35%" 
+        <div style="position: relative; font-family: 'Times New Roman', serif; font-size: 17px; line-height: 1.2;"> 
+            
+        
+
+
+        <span style="  font-family: 'Patrick Hand', cursive;  position: absolute; margin-top:12.5%; margin-left:33.5%; z-index: 9999;">
+  <?php 
+        $data = new DateTime($aluno['data_imprimir']);
+       
+        $dia = $data->format("d");
+        $mes = $data->format("n");
+        $ano = $data->format("Y");
+        $hora = $data->format("H:i:s");
+        echo "{$dia} / {$mes} / {$ano}";
+    ?>
+    </span>
+
+
+        <img src="../../assinaturas/image.png" alt="Brasão de S. Tomé e Príncipe" width="35%" 
         style="position: absolute; top: 27%; left: 20%; ">
             <span>
                 Art.º 8.º 10,00 <br>
@@ -825,10 +850,11 @@ if ($aluno['classe_id'] == 8) {
          
         <div class="justify" style="font-family: 'Times New Roman', serif; font-size: 17px;">
             Obs.: O emolumento é cobrado por meio de estampilha fiscal nos termos do artigo 26.º 
-            do Decreto Lei n.º58/80 de 18/12------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+            do Decreto Lei n.º58/80 de 18/12-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
             
             
         </div>
+        <br>
         <br>
         <span class="footer">
                 MECSES <span style="font-weight: bolder; letter-spacing:1px">

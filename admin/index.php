@@ -22,6 +22,15 @@ $total_certidoes_distintos = $resultado_distintos_certidao['total_distintos'];
 
 
 
+$consulta_certidoes = mysqli_query($mysqli, "
+    SELECT COUNT(*) as total 
+    FROM alunos 
+    WHERE codigo_certidao IN (SELECT codigo_certidao FROM qr_scans)
+");
+
+$resultado_certidoes = mysqli_fetch_assoc($consulta_certidoes);
+$total_certidoes_validas = $resultado_certidoes['total'];
+
 ?>
 
 
@@ -38,7 +47,7 @@ $total_certidoes_distintos = $resultado_distintos_certidao['total_distintos'];
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 
-   
+   <link rel="shortcut icon" href="/icon.ico" type="image/x-icon">
     <!-- ====== ionicons ======= -->
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
@@ -46,6 +55,30 @@ $total_certidoes_distintos = $resultado_distintos_certidao['total_distintos'];
     
 
     <style>
+.popup-notification {
+            position: fixed;
+            top: 20px;
+            right: 250px;
+            background:rgb(255, 255, 255);
+            color:rgb(102, 255, 0);
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: none;
+            z-index: 1000;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%);}
+            to { transform: translateX(0);}
+        }
+
+        .popup-notification.show {
+            display: block;
+        }
+
+
 
  .footer {
             margin-top: 50px;
@@ -85,6 +118,8 @@ $total_certidoes_distintos = $resultado_distintos_certidao['total_distintos'];
 </head>
 
 <body>
+<div id="popup" class="popup-notification"></div>
+<div id="initialCount" style="display: none;"><?php echo $total_pedidos; ?></div>
 
 
     
@@ -120,7 +155,7 @@ $total_certidoes_distintos = $resultado_distintos_certidao['total_distintos'];
             <ion-icon name="add-circle-outline" style="color: yellow;"></ion-icon>
         </span>
         <span class="title">
-             Usuário
+             Utilizador
         </span>
     </a>
 </li>
@@ -141,6 +176,74 @@ $total_certidoes_distintos = $resultado_distintos_certidao['total_distintos'];
 </li>
 
 
+
+
+<li>
+    <a href="gestao.php" >
+        <span class="icon" >
+            <ion-icon name="settings-outline" style="color: #ffffff;"></ion-icon>
+        </span>
+        <span class="title">
+            Gestão
+        </span>
+    </a>
+</li>
+
+
+
+ 
+<li>
+    <a href="certidao_feita/total_scans.php">
+        <span class="icon">
+            <ion-icon name="qr-code-outline" style="color: #ffffff;"></ion-icon>
+        </span>
+        <span class="title">
+        <span style="color: #00ff55;"><?php echo $total_certidoes_validas ?></span>  QR Code
+        </span>
+    </a>
+</li>
+
+
+
+<li>
+    <a href="relatorio/relatorio.php">
+        <span class="icon">
+        <ion-icon name="newspaper-outline" style="color: #ffffff;"></ion-icon>
+
+        </span>
+        <span class="title">
+        <span style="color: #00ff55;"></span>  Relatórios
+        </span>
+    </a>
+</li>
+
+
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+ 
 <li id="addCard">
     <a href="../sair/exit.php">
         <span class="icon">
@@ -332,21 +435,38 @@ $total_certidoes_distintos = $resultado_distintos_certidao['total_distintos'];
                                             </tr>
                                         </thead>
                                         <tbody>`;
-                                data.forEach(row => {
-                                    detailsContent += `<tr>
-                                        <td style="text-align:left">${row.numero}</td>
-                                        <td style="text-align:left">${row.nome}</td>
-                                        <td style="text-align:left">${row.escola}</td>
-                                        <td style="text-align:left">${row.classe}</td>
-                                        <td style="text-align:left">${row.turma}</td>
-                                        <td style="text-align:left">${row.ano_letivo}</td>
-                                        <td>
-                                            <a href="certidao_feita/index.php?id=${row.id}" class="edit-btn" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s;">
-                                                <i class="fas fa-print me-2"></i> <span style="font-size:12px; color:yellow;">Imprimir</span>
-                                            </a>
-                                        </td>
-                                    </tr>`;
-                                });
+                                        data.forEach(row => {
+    let urlImprimir;
+
+    if (row.classe_id == 1 || row.classe_id == 2) {
+        urlImprimir = 'certidao_feita/quinta_sexta.php?id=' + row.id;
+    } else if (row.classe_id == 8) {
+        urlImprimir = 'certidao_feita/index12.php?id=' + row.id;
+    } 
+    
+    else if (row.classe_id == 3 || row.classe_id == 4) {
+    urlImprimir = 'certidao_feita/setima_oitava.php?id=' + row.id;
+}
+    
+    else {
+        urlImprimir = 'certidao_feita/index.php?id=' + row.id;
+    }
+
+    detailsContent += `<tr>
+        <td style="text-align:left">${row.numero}</td>
+        <td style="text-align:left">${row.nome}</td>
+        <td style="text-align:left">${row.escola}</td>
+        <td style="text-align:left">${row.classe}</td>
+        <td style="text-align:left">${row.turma}</td>
+        <td style="text-align:left">${row.ano_letivo}</td>
+        <td>
+            <a href="${urlImprimir}" class="edit-btn" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s;">
+              <span>Imprimir</span>
+            </a>
+        </td>
+    </tr>`;
+});
+
                                 detailsContent += `</tbody></table></div>
                                     <div class="footer">
                                         <p>&copy; 2024 Sistema Interno - Todos os direitos reservados</p>
@@ -381,6 +501,22 @@ $total_certidoes_distintos = $resultado_distintos_certidao['total_distintos'];
                                         </thead>
                                         <tbody>`;
                                 data.forEach(row => {
+
+                                    let urlImprimir;
+
+if (row.classe_id == 1 || row.classe_id == 2) {
+    urlImprimir = 'certidao_feita/quinta_sexta.php?id=' + row.id;
+} else if (row.classe_id == 8) {
+    urlImprimir = 'certidao_feita/index12.php?id=' + row.id;
+} 
+else if (row.classe_id == 3 || row.classe_id == 4) {
+    urlImprimir = 'certidao_feita/setima_oitava.php?id=' + row.id;
+}
+else {
+    urlImprimir = 'certidao_feita/index.php?id=' + row.id;
+}
+
+
                                     detailsContent += `<tr>
                                         <td>${row.numero}</td>
                                         <td>${row.nome}</td>
@@ -389,8 +525,8 @@ $total_certidoes_distintos = $resultado_distintos_certidao['total_distintos'];
                                         <td>${row.turma}</td>
                                         <td>${row.ano_letivo}</td>
                                         <td>
-                                            <a href="certidao_feita/index.php?id=${row.id}" class="edit-btn" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s;">
-                                                <i class="fas fa-print me-2"></i> Imprimir
+                                            <a href="${urlImprimir}" class="edit-btn" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s;">
+                                                Imprimir
                                             </a>
                                         </td>
                                     </tr>`;
@@ -433,6 +569,38 @@ $total_certidoes_distintos = $resultado_distintos_certidao['total_distintos'];
 
  <!-- =========== Scripts ========= -->
  <script src="../personalizar/main.js"></script>
+
+
+ <script>
+        // Configuração do pop-up
+        let lastCount = parseInt(document.getElementById('initialCount').textContent);
+        const popup = document.getElementById('popup');
+
+        function checkNewCertidoes() {
+            fetch('get_count.php')
+                .then(response => response.text())
+                .then(currentCount => {
+                    currentCount = parseInt(currentCount);
+                    if (currentCount > lastCount) {
+                        const newEntries = currentCount - lastCount;
+                        showPopup(`você tem ${newEntries} novo certificado para ser retificado!`);
+                        lastCount = currentCount;
+                    }
+                })
+                .catch(error => console.error('Erro:', error));
+        }
+
+        function showPopup(message) {
+            popup.textContent = message;
+            popup.classList.add('show');
+            setTimeout(() => {
+                popup.classList.remove('show');
+            }, 10000);
+        }
+
+        // Verificar a cada 5 segundos
+        setInterval(checkNewCertidoes, 2000);
+    </script>
 
 
 </body>

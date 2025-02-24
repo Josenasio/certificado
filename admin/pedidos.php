@@ -27,6 +27,7 @@ if ($type === 'retificar') {
     $query = "SELECT 
         a.id,
         a.nome, 
+         a.classe_id,
         t.nome_turma AS turma, 
         c.nome_classe AS classe, 
         e.nome_escola AS escola, 
@@ -45,6 +46,7 @@ if ($type === 'arquivo') {
     $query = "SELECT 
         a.id,
         a.nome, 
+        a.classe_id,
         t.nome_turma AS turma, 
         c.nome_classe AS classe, 
         e.nome_escola AS escola, 

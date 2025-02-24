@@ -478,7 +478,8 @@ if (isset($_GET['id'])) {
 
   <br><br>
   <button type="submit" class="btn btn-primary">
-      Atualizar Certidão <span class="glyphicon glyphicon-refresh"></span>
+  Certificado Retificado <span class="glyphicon glyphicon-ok" style="color: yellow;"></span>
+
   </button>
 </form>
 

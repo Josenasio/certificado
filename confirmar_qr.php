@@ -134,6 +134,7 @@ if (!isset($_GET['codigo_certidao'])) {
         a.codigo_certidao, 
         a.status_certidao, 
         a.data_registro, 
+         a.data_imprimir, 
         a.numero,
         a.data_nascimento, 
         a.bi, 
@@ -375,6 +376,9 @@ HTML;
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
   
+
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+
   
   <style>
     /* Estilo geral para centralizar a página na tela */
@@ -916,29 +920,73 @@ if ($aluno['classe_id'] == 8) {
       e leva o selo branco em uso nesta Direcção
     </div>
     <br>
-    <span id="guiche_aluno" style="font-family: 'Times New Roman', serif; font-size: 17px;">
-      Guichê do aluno em São Tomé, <?php
+    <span id="consta_livro" style="font-family: 'Times New Roman', serif; font-size: 17px;"> 
+    Guichê do aluno em São Tomé, 
+    <?php 
+        $data = new DateTime($aluno['data_imprimir']);
         $meses = [
-          1 => 'janeiro', 2 => 'fevereiro', 3 => 'março', 4 => 'abril',
-          5 => 'maio', 6 => 'junho', 7 => 'julho', 8 => 'agosto',
-          9 => 'setembro', 10 => 'outubro', 11 => 'novembro', 12 => 'dezembro'
+            1 => "janeiro",
+            2 => "fevereiro",
+            3 => "março",
+            4 => "abril",
+            5 => "maio",
+            6 => "junho",
+            7 => "julho",
+            8 => "agosto",
+            9 => "setembro",
+            10 => "outubro",
+            11 => "novembro",
+            12 => "dezembro"
         ];
-        $date = new DateTime();
-        $dia = $date->format('d');
-        $mes = $meses[(int)$date->format('m')];
-        $ano = $date->format('Y');
-        echo "{$dia} de {$mes} de {$ano}";
-      ?>.
-    </span>
+        $dia = $data->format("d");
+        $mes = $data->format("n");
+        $ano = $data->format("Y");
+        $hora = $data->format("H:i:s");
+        echo "{$dia} de {$meses[$mes]} de {$ano}";
+    ?>.
+
+
+
+
+
+
+
+
+
+
+
+</span>
     <br><br>
+   
     <div style="text-align: right; position: relative; font-family: 'Times New Roman'; font-size:16px">
       <span style="text-align: center;" id="chefesecretaria">
       <img src="assinaturas/arcang" alt="Brasão de S. Tomé e Príncipe" width="28%" 
       style="position: absolute; top: -5%; left: 75%; ">
+      
       </span>
     </div>
     <br>
-    <div id="artigo" style="position: relative; font-family: 'Times New Roman', serif; font-size: 17px; line-height: 1.2;">  <img src="assinaturas/image.png" alt="Brasão de S. Tomé e Príncipe" width="35%" 
+    <div id="artigo" style="position: relative; font-family: 'Times New Roman', serif; font-size: 17px; line-height: 1.2;"> 
+      
+    
+
+    <span style="  font-family: 'Patrick Hand', cursive;  position: absolute; margin-top:13.8%; margin-left:32%; z-index: 9999; font-size: 86%;">
+  <?php 
+        $data = new DateTime($aluno['data_imprimir']);
+       
+        $dia = $data->format("d");
+        $mes = $data->format("n");
+        $ano = $data->format("Y");
+        $hora = $data->format("H:i:s");
+        echo "{$dia} / {$mes}  / {$ano}";
+    ?>
+    </span>
+
+
+
+
+
+    <img src="assinaturas/image.png" alt="Brasão de S. Tomé e Príncipe" width="35%" 
     style="position: absolute; top: 27%; left: 20%; ">
       <span>
         Art.º 8.º 10,00 <br>

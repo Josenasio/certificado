@@ -530,6 +530,44 @@ $maxDate = date("Y-m-d", strtotime("-12 years"));
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+
+
+    <script>
+// Aguarda o carregamento do DOM
+document.addEventListener("DOMContentLoaded", function() {
+    // Obtém os selects
+    var classeSelect = document.getElementById("classe_id");
+    var classificacaoSelect = document.querySelector('select[name="classificacao_id"]');
+    // Salva as opções originais (sem o primeiro default)
+    var originalOptions = classificacaoSelect.innerHTML;
+
+    // Função para filtrar e manter somente a opção com value "2"
+    function filtrarClassificacao() {
+        var selectedValue = classeSelect.value;
+        // Caso o valor selecionado seja 1, 3, 4, 6 ou 7:
+        if (["1", "3", "4", "6", "7"].includes(selectedValue)) {
+            // Cria um container temporário para manipular as opções
+            var tempDiv = document.createElement("div");
+            tempDiv.innerHTML = originalOptions;
+            var filteredOptions = "";
+            // Percorre cada opção e mantém apenas a que tem value igual a "2"
+            tempDiv.querySelectorAll("option").forEach(function(option) {
+                if (option.value === "2") {
+                    filteredOptions += option.outerHTML;
+                }
+            });
+            // Atualiza o select de classificação (mantendo também a opção default)
+            classificacaoSelect.innerHTML = filteredOptions;
+        } else {
+            // Se não, restaura todas as opções
+            classificacaoSelect.innerHTML = '<option value="" disabled selected>Selecione a classificação</option>' + originalOptions;
+        }
+    }
+
+    // Adiciona o evento de mudança no select de classe
+    classeSelect.addEventListener("change", filtrarClassificacao);
+});
+</script>
    
 </body>
 </body>

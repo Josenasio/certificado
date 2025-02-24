@@ -1,4 +1,6 @@
 <?php
+session_start();
+$id_usuario = $_SESSION['id'];
 include_once($_SERVER['DOCUMENT_ROOT'].'/certidao/conexao/connect.php');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -34,9 +36,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $turma_id = $mysqli->insert_id;
     }
 
-    $sql = "INSERT INTO alunos (nome, bi, id_curso, data_nascimento, distrito_id, classe_id, escola_id, turma_id, numero, ano_lectivo_id, nome_mae, nome_pai, genero_id, naturalidade, codigo_certidao, classificacao_id, status_certidao) 
-            VALUES ('$nome', '$bi', '$id_curso', '$data_nascimento', '$distrito_id', $classe_id, $escola_id, $turma_id, $numero, $ano_lectivo_id, '$nome_mae', '$nome_pai', $genero_id, '$naturalidade', '$codigo_certidao', $classificacao_id, 'secretaria')";
-    
+    $sql = "INSERT INTO alunos (nome, bi, id_curso, data_nascimento, distrito_id, classe_id, escola_id, turma_id, numero, ano_lectivo_id, nome_mae, nome_pai, genero_id, naturalidade, codigo_certidao, classificacao_id, status_certidao, id_usuarios) 
+    VALUES ('$nome', '$bi', '$id_curso', '$data_nascimento', '$distrito_id', $classe_id, $escola_id, $turma_id, $numero, $ano_lectivo_id, '$nome_mae', '$nome_pai', $genero_id, '$naturalidade', '$codigo_certidao', $classificacao_id, 'secretaria', $id_usuario)";
+
     if ($mysqli->query($sql)) {
         $aluno_id = $mysqli->insert_id;
 
